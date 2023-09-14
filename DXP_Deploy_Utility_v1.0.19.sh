@@ -35,6 +35,7 @@ else
   exit 1
 fi
 
+
 current_hostname=$(hostname)
 
 NOW=$(date +%Y%m%d%H%M%S)
