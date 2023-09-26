@@ -24,50 +24,14 @@ ENVCMM_DB_PORT=$(aws secretsmanager  get-secret-value --secret-id ${param_path}"
 ENVCMM_DB_NAME=$(aws secretsmanager  get-secret-value --secret-id  ${param_path}"rds/envcmm" | jq --raw-output '.SecretString' | jq -r .db_schema)
 
 # Directory containing SQL script files
-SQL_ROOT_DIR="/hlfapp/Deploy/SQL"
+SQL_ROOT_DIR="/hlfapp/Deploy/SQL/hlfdxp_pra1_envcmm.sql"
 
-QUERY_RESULTS_DIR="/hlfapp/Deploy/SQL/QueryResults"
-mkdir -p "$QUERY_RESULTS_DIR" # Create the directory if it doesn't exist
+OUTPUT_PATH="/hlfapp/Deploy/SQL/1.out"
 
-# Log file
-LOG_FILE="/hlfapp/Deploy/SQL/SQL_logfile${NOW}.log"
-
-print_info() {
-   echo "*********************************"
-   echo -e "\e[1;34m[INFO]\e[0m \e[1;32m$1\e[0m"
-}
-
-# Function to execute SQL scripts and log output
-execute_sql_scripts() {
-  local dir="$1"
-  for SQL_FILE in "$dir"/*.sql
-  do
-    if [ -f "$SQL_FILE" ]; then
-    FILENAME=$(basename -- "$SQL_FILE")
-      FILENAME_NOEXT="${FILENAME%.*}"
-       if echo "$SQL_FILE" | grep -q "sys"; then
-          #mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password=$SYS_DB_PASSWORD "$SYS_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE" 2>&1
-          #mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password=$SYS_DB_PASSWORD "$SYS_DB_NAME" -e "source $SQL_FILE" | tee -a "a.out"
-           mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password="$SYS_DB_PASSWORD" "$SYS_DB_NAME" < "$SQL_FILE" > "$QUERY_RESULTS_DIR/$FILENAME_NOEXT.txt" 2>&1
-           print_info "Executed  SQL script in: HOST:$SYS_DB_HOST $SYS_DB_PASSWORD  USER: $SYS_DB_USER  DB: $SYS_DB_NAME SQLFile:  $SQL_FILE."
-       elif echo "$SQL_FILE" | grep -q "envrtdata"; then
-          mysql -h "$RTDAT_DB_HOST" -u $RTDAT_DB_USER --password=$RTDAT_DB_PASSWORD "$RTDAT_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE" 2>&1
-           print_info "Executed  SQL script in: HOST:$RTDAT_DB_HOST USER: $RTDAT_DB_USER  DB: $RTDAT_DB_NAME SQLFile:  $SQL_FILE."
-       elif echo "$SQL_FILE" | grep -q "envcmm"; then
-          mysql -h "$ENVCMM_DB_HOST" -u $ENVCMM_DB_USER --password=$ENVCMM_DB_PASSWORD "$ENVCMM_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE" 2>&1
-           print_info "Executed  SQL script in: HOST:$ENVCMM_DB_HOST USER: $ENVCMM_DB_USER  DB: $ENVCMM_DB_NAME SQLFile:  $SQL_FILE."
-       fi
-    fi
-  done
-
-  # Recursively process subdirectories
-  for SUBDIR in "$dir"/*
-  do
-    if [ -d "$SUBDIR" ]; then
-      execute_sql_scripts "$SUBDIR"
-    fi
-  done
-}
-
-# Start processing from the root directory
-execute_sql_scripts "$SQL_ROOT_DIR"
+mysql -u "$ENVCMM_DB_USER" -p"$ENVCMM_DB_PASSWORD" -D "$ENVCMM_DB_NAME" <<EOF
+print_info "Executed  SQL script in: HOST:$ENVCMM_DB_HOST USER: $ENVCMM_DB_USER  DB: $ENVCMM_DB_NAME"
+tee "$OUTPUT_PATH"
+source "$SCRIPT_PATH"
+notee
+exit
+EOF

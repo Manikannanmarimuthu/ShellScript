@@ -41,16 +41,13 @@ execute_sql_scripts() {
   do
     if [ -f "$SQL_FILE" ]; then
        if echo "$SQL_FILE" | grep -q "sys"; then
-          #mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password=$SYS_DB_PASSWORD "$SYS_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE" 2>&1
-          #mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password=$SYS_DB_PASSWORD "$SYS_DB_NAME" -e "source $SQL_FILE" | tee -a "a.out"
-          #mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password="$SYS_DB_PASSWORD" "$SYS_DB_NAME" --show-warnings -e "source $SQL_FILE" | tee -a "$LOG_FILE"
-          mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password="$SYS_DB_PASSWORD" "$SYS_DB_NAME"  -X < "$SQL_FILE" | > "actors.xml"
+          mysql -h "$SYS_DB_HOST" -u $SYS_DB_USER --password=$SYS_DB_PASSWORD "$SYS_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE"
            print_info "Executed  SQL script in: HOST:$SYS_DB_HOST USER: $SYS_DB_USER  DB: $SYS_DB_NAME SQLFile:  $SQL_FILE."
        elif echo "$SQL_FILE" | grep -q "envrtdata"; then
-          mysql -h "$RTDAT_DB_HOST" -u $RTDAT_DB_USER --password=$RTDAT_DB_PASSWORD "$RTDAT_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE" 2>&1
+          mysql -h "$RTDAT_DB_HOST" -u $RTDAT_DB_USER --password=$RTDAT_DB_PASSWORD "$RTDAT_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE"
            print_info "Executed  SQL script in: HOST:$RTDAT_DB_HOST USER: $RTDAT_DB_USER  DB: $RTDAT_DB_NAME SQLFile:  $SQL_FILE."
        elif echo "$SQL_FILE" | grep -q "envcmm"; then
-          mysql -h "$ENVCMM_DB_HOST" -u $ENVCMM_DB_USER --password=$ENVCMM_DB_PASSWORD "$ENVCMM_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE" 2>&1
+          mysql -h "$ENVCMM_DB_HOST" -u $ENVCMM_DB_USER --password=$ENVCMM_DB_PASSWORD "$ENVCMM_DB_NAME" < "$SQL_FILE" >> "$LOG_FILE"
            print_info "Executed  SQL script in: HOST:$ENVCMM_DB_HOST USER: $ENVCMM_DB_USER  DB: $ENVCMM_DB_NAME SQLFile:  $SQL_FILE."
        fi
     fi
