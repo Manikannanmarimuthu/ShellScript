@@ -3,15 +3,28 @@
 
 #Create datasources
 /subsystem=datasources/data-source=PRA1_CMM:add(jndi-name=java:/jdbc/PRA1_CMM,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pra1_envcmm?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
-/subsystem=datasources/data-source=PRA1_ENVRTDATA:add(jndi-name=java:/jdbc/PRA1_ENVRTDATA,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pra1_envrtdata?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
-/subsystem=datasources/data-source=PRAS_SYS:add(jndi-name=java:/jdbc/PRAS_SYS,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pras_sys?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
+/subsystem=datasources/data-source=PRA1_RTDATA:add(jndi-name=java:/jdbc/PRA1_RTDATA,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pra1_envrtdata?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
+/subsystem=datasources/data-source=PRA1_SYS:add(jndi-name=java:/jdbc/PRA1_SYS,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pras_sys?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
 
 #Remove the configured datasources
 /subsystem=datasources/data-source=PRA1_CMM:remove
-/subsystem=datasources/data-source=PRA1_ENVRTDATA:remove
-/subsystem=datasources/data-source=PRAS_SYS:remove
+/subsystem=datasources/data-source=PRA1_RTDATA:remove
+/subsystem=datasources/data-source=PRA1_SYS:remove
 
 #Verify the created connection pool
 /subsystem=datasources/data-source=PRA1_CMM:test-connection-in-pool
-/subsystem=datasources/data-source=PRA1_ENVRTDATA:test-connection-in-pool
-/subsystem=datasources/data-source=PRAS_SYS:test-connection-in-pool
+/subsystem=datasources/data-source=PRA1_RTDATA:test-connection-in-pool
+/subsystem=datasources/data-source=PRA1_SYS:test-connection-in-pool
+
+#Ifanyerrors
+reload
+
+#ToDeploy
+deploy /hlfapp/Deploy/batchadminui.war
+
+#Undeploy
+undeploy batchadminui.war
+
+#To Start jBoss server
+Go to <JBoss_Home>/bin directory
+nohup ./standalone.sh &
