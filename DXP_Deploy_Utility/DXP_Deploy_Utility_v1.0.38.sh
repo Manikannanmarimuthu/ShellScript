@@ -501,6 +501,7 @@ restart_hlfdxp(){
 }
 
 enable_relic(){
+  
 if [ "$environment" = "vit" ]; then
   print_info "Adding NewRelic APM for AUTH"
   insert_command_after_word "CLASSPATH=$APP_HOME" "# NewRelic APM for Auth" "/hlfapp/DXPApp/auth/bin/proj-hlfdxp-auth.sh" "yes"
@@ -515,12 +516,12 @@ if [ "$environment" = "vit" ]; then
   insert_command_after_word "# NewRelic APM for Inquiry" "export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-inquiry/newrelic.jar -Dnewrelic.environment=uat"" "/hlfapp/DXPApp/inquiry/bin/proj-hlfdxp-inquiry" "no"  
 
   print_info "Adding NewRelic APM for Online"
-  insert_command_after_word "CLASSPATH=$APP_HOME" "# NewRelic APM for Online" "/hlfapp/DXPApp/inquiry/bin/proj-hlfdxp-inquiry" "yes"
-  insert_command_after_word "# NewRelic APM for Inquiry" "export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-inquiry/newrelic.jar -Dnewrelic.environment=uat"" "/hlfapp/DXPApp/inquiry/bin/proj-hlfdxp-inquiry" "no"  
+  insert_command_after_word "CLASSPATH=$APP_HOME" "# Add NewRelic APM (online-app)" "/hlfapp/DXPApp/online/mdynamics/bin/runApp" "yes"
+  insert_command_after_word "# Add NewRelic APM (online-app)" "JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-app/newrelic.jar -Dnewrelic.environment=uat"" "/hlfapp/DXPApp/online/mdynamics/bin/runApp" "no"  
 
   print_info "Adding NewRelic APM for WSProcess"
-  insert_command_after_word "CLASSPATH=$APP_HOME" "# NewRelic APM for WSProcess" "/hlfapp/DXPApp/online/mdynamics/bin/" "yes"
-  insert_command_after_word "# NewRelic APM for Inquiry" "export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-inquiry/newrelic.jar -Dnewrelic.environment=uat"" "/hlfapp/DXPApp/online/mdynamics/bin/" "no"  
+  insert_command_after_word "CLASSPATH=$APP_HOME" "# Add NewRelic APM (online-wsapp)" "/hlfapp/DXPApp/online/mdynamics/bin/runApp" "yes"
+  insert_command_after_word "# Add NewRelic APM (online-wsapp)" "JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-wsapp/newrelic.jar -Dnewrelic.environment=uat"" "/hlfapp/DXPApp/online/mdynamics/bin/runWSApp" "no"  
 
 if [ "$current_hostname" = "$action_hostname1" ]; then
   print_info "Adding NewRelic APM for BATCH"
