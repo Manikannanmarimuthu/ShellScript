@@ -392,39 +392,6 @@ start_batch
 start_partitionservice
 }
 
-#!/bin/bash
-
-# Define a function to insert a command after a specific word in a file
-insert_command_after_word() {
-    local search_word="$1"
-    local insert_command="$2"
-    local input_file="$3"
-    local insert_empty_line="$4"
-    local line_number
-
-    # Find the line number of the search word
-    local word_line_number=$(grep -n "$search_word" "$input_file" | cut -d':' -f1)
-
-    if [ -z "$word_line_number" ]; then
-        echo "Word '$search_word' not found in the file."
-    else
-        # Increase the line number by 1
-        ((word_line_number++))
-
-        # Check if an empty line should be inserted
-        if [ "$insert_empty_line" == "yes" ]; then
-            # Insert an empty line at the specified line number
-            sed -i "${word_line_number}a\\" "$input_file"
-            ((word_line_number++))
-        fi
-
-        # Insert the command at the increased line number directly into the source file
-        sed -i "${word_line_number}i$insert_command" "$input_file"
-
-        echo "Command inserted after line number $word_line_number in '$input_file'."
-    fi
-}
-
 deploy_hlfdxp(){
 
 shutdown_hlfdxp
@@ -487,7 +454,11 @@ echo "Changing jms.client.id in Instance 2 $current_hostname"
    sed -i 's/ext.jms.client.id = P1G1_BTSGW1_1/ext.jms.client.id = P1G1_BTSGW1_2/g' /hlfapp/DXPApp/online/mdynamics/bin/notifBroker.properties
 fi
 
-enable_relic
+if [ "$environment" = "uat" ]; then
+ enable_relic
+else
+  echo " Since scripts are running $environment not required to enable New Relic"
+fi
 
 start_hlfdxp
 
@@ -662,7 +633,172 @@ fi
 fi
 }
 
+insert_command_after_word() {
+    local search_word="$1"
+    local insert_command="$2"
+    local input_file="$3"
+    local insert_empty_line="$4"
 
+    # Find the line number of the search word
+    local word_line_number=$(grep -n "$search_word" "$input_file" | cut -d':' -f1)
+
+    if [ -z "$word_line_number" ]; then
+        echo "Word '$search_word' not found in the file."
+    else
+        # Increase the line number by 1
+        word_line_number=$((word_line_number + 1))
+
+        # Check if an empty line should be inserted
+        if [ "$insert_empty_line" == "yes" ]; then
+            # Insert an empty line at the specified line number
+            sed -i "${word_line_number}a\\" "$input_file"
+            # Increase the line number again
+            word_line_number=$((word_line_number + 1))
+        fi
+
+        # Insert the command at the increased line number directly into the source file
+        sed -i "${word_line_number}i$insert_command" "$input_file"
+
+        echo "Command inserted after line number $word_line_number in '$input_file'."
+    fi
+}
+
+enable_relic_auth(){
+print_info "Adding NewRelic APM for AUTH"
+# Define variables
+search_word="CLASSPATH=\$APP_HOME"  # Note: Escaping the dollar sign
+insert_command="# NewRelic APM for Auth"
+input_file="/hlfapp/Deploy/Test/proj-hlfdxp-auth"
+insert_empty_line="yes"
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+# Define variables
+search_word="# NewRelic APM for Auth"
+insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-auth/newrelic.jar -Dnewrelic.environment=uat"'
+insert_empty_line="no"
+
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+enable_relic_batch(){
+if [ "$current_hostname" = "$action_hostname1" ]; then
+print_info "Adding NewRelic APM for BATCH"
+# Define variables
+search_word="CLASSPATH=\$APP_HOME"  # Note: Escaping the dollar sign
+insert_command="# NewRelic APM for Batch"
+input_file="/hlfapp/DXPApp/batch/bin/proj-hlfdxp-batch"
+insert_empty_line="yes"
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+# Define variables
+search_word="# NewRelic APM for Batch"
+insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-batch/newrelic.jar -Dnewrelic.environment=uat"'
+insert_empty_line="no"
+
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+else
+   echo "New Relic not required to configure Batch. Since scripts are running $action_hostname1" 
+fi
+}
+
+enable_relic_datasync(){
+print_info "Adding NewRelic APM for DataSync"
+# Define variables
+search_word="CLASSPATH=\$APP_HOME"  # Note: Escaping the dollar sign
+insert_command="# NewRelic APM for DataSync"
+input_file="/hlfapp/DXPApp/datasync/bin/proj-hlfdxp-datasync"
+insert_empty_line="yes"
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+# Define variables
+search_word="# NewRelic APM for DataSync"
+insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-datasync/newrelic.jar -Dnewrelic.environment=uat"'
+insert_empty_line="no"
+
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+
+enable_relic_inquiry(){
+print_info "Adding NewRelic APM for Inquiry"
+# Define variables
+search_word="CLASSPATH=\$APP_HOME"  # Note: Escaping the dollar sign
+insert_command="# NewRelic APM for Inquiry"
+input_file="/hlfapp/DXPApp/inquiry/bin/proj-hlfdxp-inquiry"
+insert_empty_line="yes"
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+# Define variables
+search_word="# NewRelic APM for Inquiry"
+insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-inquiry/newrelic.jar -Dnewrelic.environment=uat"'
+insert_empty_line="no"
+
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+
+enable_relic_online(){
+print_info "Adding NewRelic APM for Online"
+# Define variables
+search_word="export CLASSPATH"
+insert_command="# Add NewRelic APM (online-app)"
+input_file="/hlfapp/DXPApp/online/mdynamics/bin/runApp"
+insert_empty_line="yes"
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+# Define variables
+search_word="# Add NewRelic APM (online-app)"
+insert_command='JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-app/newrelic.jar -Dnewrelic.environment=uat"'
+insert_empty_line="no"
+
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+enable_relic_wsprocess(){
+if [ "$current_hostname" = "$action_hostname1" ]; then
+print_info "Adding NewRelic APM for WSPROCESS"
+# Define variables
+search_word="export CLASSPATH"
+insert_command="#NewRelic APM (online-wsapp)"
+input_file="/hlfapp/DXPApp/online/mdynamics/bin/runWSApp"
+insert_empty_line="yes"
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+# Define variables
+search_word="#NewRelic APM (online-wsapp)"
+insert_command='JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-wsapp/newrelic.jar -Dnewrelic.environment=uat"'
+insert_empty_line="no"
+
+# Call the function with defined variables
+insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+else
+   echo "New Relic not required to configure for WSPROCESS. Since scripts are running $action_hostname1" 
+fi
+}
+
+enable_relic(){
+
+enable_relic_auth
+enable_relic_batch
+enable_relic_datasync
+enable_relic_inquiry
+enable_relic_online
+enable_relic_wsprocess
+
+}
 
 # Function to prompt for confirmation
 confirm_action() {

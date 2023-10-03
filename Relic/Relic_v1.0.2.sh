@@ -32,8 +32,6 @@ insert_command_after_word() {
 
         # Insert the command at the increased line number directly into the source file
         sed -i "${word_line_number}i$insert_command" "$input_file"
-
-        echo "Command inserted after line number $word_line_number in '$input_file'."
     fi
 }
 

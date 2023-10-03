@@ -1,5 +1,6 @@
 #Connect to JBOSS
-    ./jboss-cli.sh --connect --controller=192.168.0.31:9990
+    ./jboss-cli.sh --connect --controller=192.168.0.31:9990 (VIT)
+    ./jboss-cli.sh --connect --controller=localhost:9992 (SIT)
 
 #Create datasources
 /subsystem=datasources/data-source=PRA1_CMM:add(jndi-name=java:/jdbc/PRA1_CMM,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pra1_envcmm?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
@@ -24,6 +25,10 @@ deploy /hlfapp/Deploy/batchadminui.war
 
 #Undeploy
 undeploy batchadminui.war
+
+#To check Deployment status
+deployment-info
+
 
 #To Start jBoss server
 Go to <JBoss_Home>/bin directory
