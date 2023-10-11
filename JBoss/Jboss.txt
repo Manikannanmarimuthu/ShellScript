@@ -21,7 +21,7 @@
 reload
 
 #ToDeploy
-deploy /hlfapp/Deploy/batchadminui.war
+deploy /hlfapp/Deploy/Test/batchadminui.war
 
 #Undeploy
 undeploy batchadminui.war

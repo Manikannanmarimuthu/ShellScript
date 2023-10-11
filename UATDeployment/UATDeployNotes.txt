@@ -10,3 +10,11 @@ Copy DXP Online to S3
 /usr/local/bin/aws s3 cp v3.0.7_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.7/v3.0.7_Online.zip
 Sync DXP Online depoloy version
 /usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.7/v3.0.7_Online.zip s3://mvi-deployment-uat/v3.0.7/v3.0.7_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
+
+
+
+Ver 3.0.8_Online:
+Copy DXP Online to S3
+/usr/local/bin/aws s3 cp v3.0.8_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.8/v3.0.8_Online.zip
+Sync DXP Online depoloy version
+/usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.8/v3.0.8_Online.zip s3://mvi-deployment-uat/v3.0.8/v3.0.8_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
