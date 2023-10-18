@@ -469,7 +469,16 @@ else
   print_info " Since scripts are running $environment not required to diable SSL for AUTH"
 fi
 
-#download_ks
+if [ "$environment" = "vit" ]; then
+print_info "Updating Memory related changes"
+ sed -i 's/export JAVA_OPTS="-Xmx2048m"/export JAVA_OPTS="-Xmx512m"/g' /hlfapp/DXPApp/inquiry/bin/setenv.sh
+ sed -i 's/export JAVA_OPTS="-Xmx2048m"/export JAVA_OPTS="-Xmx512m"/g' /hlfapp/DXPApp/auth/bin/setenv.sh
+ sed -i 's/export JAVA_OPTS="-Xmx2048m"/export JAVA_OPTS="-Xmx512m"/g' /hlfapp/DXPApp/datasync/bin/setenv.sh
+ sed -i 's/export JAVA_OPTS="-Xmx1024m"/export JAVA_OPTS="-Xmx512m"/g' /hlfapp/DXPApp/partitionservice/bin/setenv.sh
+else
+  print_info "Not required any changes with respect Memory related changes"
+fi
+
 
 start_hlfdxp
 

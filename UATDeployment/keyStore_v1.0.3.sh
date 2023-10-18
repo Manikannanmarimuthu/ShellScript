@@ -21,6 +21,28 @@ download_ks(){
    echo "Import Cert"
    sudo keytool -importcert -alias localhost -file /hlfapp/SSL/localhost.cer -trustcacerts -cacerts -storepass changeit -noprompt
 
+   keytool -trustcacerts -cacerts -storepass changeit -noprompt
+
+   keytool -importkeystore -srckeystore HLFVITKS.jks -destkeystore client.pkcs   -srcstoretype JKS -deststoretype PKCS12
+
+   openssl pkcs12 -in client.pkcs -out client.pem
+
+   keytool -export -alias your_alias -file your_certificate.cer -keystore your_keystore.jks
+
+   aws secretsmanager create-secret --name "hlfdxp/vit/ts/ssl/b64" --description "Private key file" --secret-binary fileb://./client.pem
+
+   sed  's/server.ssl.enabled: true/server.ssl.enabled: false/g' /hlfapp/DXPApp/auth/conf/application.properties
+
+   Select * from commonparamconfig where PARAM_SUB_KEY= 'ACCESS_URL';
+
+   Select * from commonparamconfig where PARAM_SUB_KEY= 'BACKEND_API_URL1';
+
+
+   @~Clement Lim  @~Xue Ting @~Sam   - Can we restart DXP for some configuration changes? It will take 5 - 10 min only.
+
+   @~Clement Lim  thanks. 
+@~Arthur Tham  - can help to restart both DXP online process only after the script execution.
+   
 }
 
 download_ks

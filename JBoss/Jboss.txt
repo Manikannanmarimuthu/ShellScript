@@ -29,7 +29,6 @@ undeploy batchadminui.war
 #To check Deployment status
 deployment-info
 
-
 #To Start jBoss server
 Go to <JBoss_Home>/bin directory
 nohup ./standalone.sh &
