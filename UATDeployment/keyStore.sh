@@ -23,3 +23,8 @@ keytool -importcert -alias $ts_alias -file $file_path_loc -trustcacerts -cacerts
 
 
 download_ks
+
+
+keytool -export -alias your_alias -file your_certificate.cer -keystore your_keystore.jks
+
+openssl x509 -inform der -in your_certificate.cer -out your_certificate.pem

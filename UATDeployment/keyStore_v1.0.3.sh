@@ -31,7 +31,6 @@ download_ks(){
 
    aws secretsmanager create-secret --name "hlfdxp/vit/ts/ssl/b64" --description "Private key file" --secret-binary fileb://./client.pem
 
-   sed  's/server.ssl.enabled: true/server.ssl.enabled: false/g' /hlfapp/DXPApp/auth/conf/application.properties
 
    Select * from commonparamconfig where PARAM_SUB_KEY= 'ACCESS_URL';
 
@@ -41,7 +40,8 @@ download_ks(){
    @~Clement Lim  @~Xue Ting @~Sam   - Can we restart DXP for some configuration changes? It will take 5 - 10 min only.
 
    @~Clement Lim  thanks. 
-@~Arthur Tham  - can help to restart both DXP online process only after the script execution.
+   
+   @~Arthur Tham  - can help to restart both DXP online process only after the script execution.
    
 }
 

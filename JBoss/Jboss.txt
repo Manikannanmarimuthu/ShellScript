@@ -32,3 +32,10 @@ deployment-info
 #To Start jBoss server
 Go to <JBoss_Home>/bin directory
 nohup ./standalone.sh &
+
+
+chown -R mvi1:mvi1 server.log
+
+
+. ./setenv.sh
+nohup ./standalone.sh -Djboss.socket.binding.port-offset=2 -b 0.0.0.0 &

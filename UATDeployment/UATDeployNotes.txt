@@ -5,9 +5,18 @@ Sync DXP Online depoloy version
 /usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.10/v3.0.10_Online.zip s3://mvi-deployment-uat/v3.0.10/v3.0.10_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
 
 
-
 Hi All, 
    We are going to deploy DXP now in UAT. DXP will be down until deployment is done.  Once Deployment is completed will update here. Thanks
 
 Hi All, 
    DXP Service is up now. Can proceed further. Thanks
+
+
+   
+echo "Copy DXP Admin to S3"
+/usr/local/bin/aws s3 cp latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip s3://mvi-deployment-sit/deploy_uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip
+
+echo "Sync DXP Admin depoloy version $DEPLOY_UAT_VERSION to UAT S3"
+/usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip s3://mvi-deployment-uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip --source-region ap-southeast-1 --region ap-southeast-1
+
+ 

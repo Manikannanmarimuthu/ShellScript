@@ -396,6 +396,8 @@ start_partitionservice
 
 deploy_hlfdxp(){
 
+  
+
 shutdown_hlfdxp
 
 format_and_display_jps
@@ -479,6 +481,8 @@ else
   print_info "Not required any changes with respect Memory related changes"
 fi
 
+#Trustore entry added to CACerts
+download_ks
 
 start_hlfdxp
 
@@ -823,27 +827,18 @@ enable_relic_wsprocess
 
 download_ks(){
 
-file="/hlfapp/SSL/localhost.cer"
-
-if [ -e "$file" ]; then
-    rm -rf "$file"
-    echo "File '$file' deleted."
-else
-    echo "File '$file' does not exist."
-fi
-
    file_path_loc=$(aws secretsmanager  get-secret-value --secret-id ${param_path}"ts/ssl" | jq --raw-output '.SecretString' | jq -r .keyFilePath)
-   
+      
    ts_alias=$(aws secretsmanager  get-secret-value --secret-id ${param_path}"ts/ssl" | jq --raw-output '.SecretString' | jq -r .keyAlias)
-
-   echo "downloaing the batch admin ui Trust store certficate: "$file_path_loc" and rt alias name:"$ts_alias
-   aws secretsmanager get-secret-value --secret-id ${param_path}"ts/ssl/b64" | jq --raw-output '.SecretString' | base64 --decode >$file_path_loc
+	  
+    echo "downloaing the DXP Trust store certficate: "$file_path_loc" and alias name:"$ts_alias
+    aws secretsmanager get-secret-value --secret-id ${param_path}"ts/ssl/b64" | jq --raw-output '.SecretString' >$file_path_loc
    
-    echo "deleting the existing batch admin ui alias name:"$ts_alias" from java cacerts"
+    echo "deleting the existing DXP alias name:"$ts_alias" from java cacerts"
     #delete certficate
     keytool -delete -cacerts -alias $ts_alias -storepass changeit
 
-    echo "importing the new  batch admin ui alias name:"$ts_alias" to java cacerts"
+    echo "importing the new  DXP alias name:"$ts_alias" to java cacerts"
     #add certificate
     keytool -importcert -alias $ts_alias -file $file_path_loc -trustcacerts -cacerts -storepass changeit -noprompt
 }
@@ -1058,7 +1053,7 @@ function inner_select() {
           "BATCH")
 					          print_info "Input received from user to start HLF-DXP BATCH Service"
                        format_and_display_jps
-                       if confirm_action "Start" "AUTH"; then
+                       if confirm_action "Start" "BATCH"; then
                           if [ "$current_hostname" = "$action_hostname1" ]; then
 					                      start_batch
                           elif [ "$current_hostname" = "$action_hostname2" ]; then
