@@ -36,6 +36,8 @@ nohup ./standalone.sh &
 
 chown -R mvi1:mvi1 server.log
 
-
 . ./setenv.sh
 nohup ./standalone.sh -Djboss.socket.binding.port-offset=2 -b 0.0.0.0 &
+
+SIT Jboss Location: 
+  /hlfapp/dxp/EAP-7.4.6/bin
