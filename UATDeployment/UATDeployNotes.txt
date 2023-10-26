@@ -11,12 +11,8 @@ Hi All,
 Hi All, 
    DXP Service is up now. Can proceed further. Thanks
 
-
-   
 echo "Copy DXP Admin to S3"
 /usr/local/bin/aws s3 cp latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip s3://mvi-deployment-sit/deploy_uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip
 
 echo "Sync DXP Admin depoloy version $DEPLOY_UAT_VERSION to UAT S3"
-/usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip s3://mvi-deployment-uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip --source-region ap-southeast-1 --region ap-southeast-1
-
- 
+/usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip s3://mvi-deployment-uat/$DEPLOY_UAT_VERSION/latest_uat_dxp_admin_$DEPLOY_UAT_VERSION.zip --source-region ap-southeast-1 --region ap-southeast-1 

@@ -434,7 +434,7 @@ sleep 5s
 status_check
 
 print_info "copying all the folders into /hlfapp/DXPApp/ "
-yes | cp -rf  /hlfapp/Deploy/DXPApp  /hlfapp/ >> "${LOG}" 2>&1;
+cp -rf  /hlfapp/Deploy/DXPApp  /hlfapp/ >>${LOG};
 sleep 5s
 status_check
 

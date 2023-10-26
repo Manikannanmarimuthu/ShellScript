@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#set -x  #debug mode
-#set -e  #If any error available will exit abrubtly.
-#set -o pipefail #To catch the pipe failiure
+set -x  #debug mode
+set -e  #If any error available will exit abrubtly.
+set -o pipefail #To catch the pipe failiure
 
 ###################################
 #Author : MVI

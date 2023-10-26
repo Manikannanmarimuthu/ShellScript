@@ -33,11 +33,13 @@ deployment-info
 Go to <JBoss_Home>/bin directory
 nohup ./standalone.sh &
 
-
+cp /Some other location 
 chown -R mvi1:mvi1 server.log
 
+Applicable for only SIT 
+# 9990 already occupied in SIT so we incrementing + 2 9992
 . ./setenv.sh
 nohup ./standalone.sh -Djboss.socket.binding.port-offset=2 -b 0.0.0.0 &
 
-SIT Jboss Location: 
-  /hlfapp/dxp/EAP-7.4.6/bin
+SIT Jboss Location: (SIT)
+   /hlfapp/dxp/EAP-7.4.6/bin

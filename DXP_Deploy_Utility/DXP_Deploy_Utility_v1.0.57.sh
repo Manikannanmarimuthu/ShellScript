@@ -434,7 +434,7 @@ sleep 5s
 status_check
 
 print_info "copying all the folders into /hlfapp/DXPApp/ "
-yes | cp -rf  /hlfapp/Deploy/DXPApp  /hlfapp/ >> "${LOG}" 2>&1;
+cp -rf  /hlfapp/Deploy/DXPApp  /hlfapp/ >>${LOG};
 sleep 5s
 status_check
 
@@ -838,18 +838,6 @@ enable_relic_wsprocess
 download_ks(){
   
    file_path_loc=$(aws secretsmanager  get-secret-value --secret-id ${param_path}"ts/ssl" | jq --raw-output '.SecretString' | jq -r .keyFilePath)
-
-         full_path= $file_path_loc
-            directory_path=$(dirname "$full_path")
-            print_info "Directory Path: $directory_path"
-            folder_path=$file_path_loc
-               if [ ! -d "$folder_path" ]; then
-                    mkdir -p "$folder_path"
-               print_info "Folder does not exist, created: $folder_path"
-                else
-                   print_info "Folder already exists: $folder_path"
-                 rm -rf $file_path_loc
-              fi
 
     ts_alias=$(aws secretsmanager  get-secret-value --secret-id ${param_path}"ts/ssl" | jq --raw-output '.SecretString' | jq -r .keyAlias)
 	  
