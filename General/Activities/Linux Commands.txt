@@ -33,10 +33,3 @@ k — Move up one line.
 l — Move right one character.
 
 $ watch tail -n 15 /hlfapp/JBossEAP-7.4/standalone/log/server.log
-
-
-JAVA - 8 List needs to study: 
-     https://www.youtube.com/playlist?list=PLyHJZXNdCXsdeusn4OM33415DCMQ6sUKy
-
-
-     
