@@ -43,3 +43,13 @@ nohup ./standalone.sh -Djboss.socket.binding.port-offset=2 -b 0.0.0.0 &
 
 SIT Jboss Location: (SIT)
    /hlfapp/dxp/EAP-7.4.6/bin
+
+
+
+   [14:19] Gautham Gajula
+Manikannan Marimuthu - check for /hlfapp/dxp path and offset word
+[14:21] Gautham Gajula
+ 
+we can use below command
+[14:21] Gautham Gajula
+   ps -ef | grep dxp

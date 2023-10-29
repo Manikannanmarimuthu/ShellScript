@@ -1,8 +1,7 @@
-https://www.redhat.com/sysadmin/introduction-vi-editor
-
+Link refer: https://www.redhat.com/sysadmin/introduction-vi-editor
 
 Vi shortcuts
-The best way to learn Vi is to create a new file and try it out for yourself. Feel free to use the common keyboard shortcut list below to help you learn Vi’s extensive vocabulary. This list of shortcuts is by no means exhaustive, but they will enable you to edit files and learn Vi in a short amount of time.
+    The best way to learn Vi is to create a new file and try it out for yourself. Feel free to use the common keyboard shortcut list below to help you learn Vi’s extensive vocabulary. This list of shortcuts is by no means exhaustive, but they will enable you to edit files and learn Vi in a short amount of time.
 
 $ vi <filename> — Open or edit a file.
 i — Switch to Insert mode.
@@ -32,4 +31,9 @@ j — Move down one line.
 k — Move up one line.
 l — Move right one character.
 
-$ watch tail -n 15 /hlfapp/JBossEAP-7.4/standalone/log/server.log
+#TailCommand
+   watch tail -n 15 /hlfapp/JBossEAP-7.4/standalone/log/server.log
+
+
+#Persmission related blogs 
+   https://itslinuxfoss.com/file-permissions-755-mean/#google_vignette

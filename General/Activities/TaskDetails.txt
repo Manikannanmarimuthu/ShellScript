@@ -1,0 +1,7 @@
+26-OCT-2023
+HLF: 
+  1. SSL Enable for WSProcess.
+  2. DXP operational document.
+
+CIMB:
+   1. Reply mail to User Verification
