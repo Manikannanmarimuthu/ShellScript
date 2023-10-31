@@ -36,6 +36,12 @@ nohup ./standalone.sh &
 cp /Some other location 
 chown -R mvi1:mvi1 server.log
 
+[Yesterday 17:23] Arthur Tham
+sudo chown mvi1:mvi1 *
+
+[Yesterday 17:24] Arthur Tham
+sudo chown -R mvi1:mvi1 *
+
 Applicable for only SIT 
 # 9990 already occupied in SIT so we incrementing + 2 9992
 . ./setenv.sh
@@ -45,11 +51,13 @@ SIT Jboss Location: (SIT)
    /hlfapp/dxp/EAP-7.4.6/bin
 
 
-
-   [14:19] Gautham Gajula
+[14:19] Gautham Gajula
 Manikannan Marimuthu - check for /hlfapp/dxp path and offset word
 [14:21] Gautham Gajula
  
 we can use below command
 [14:21] Gautham Gajula
    ps -ef | grep dxp
+
+
+   https://stackoverflow.com/questions/17219174/variables-set-in-bashrc-and-accessing-them-in-shellscript
