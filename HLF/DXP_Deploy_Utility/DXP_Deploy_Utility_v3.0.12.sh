@@ -1299,15 +1299,15 @@ function inner_select() {
          TrustStore)
              while true; do
              PS3="Select an option from the listed above: "  # Customize the prompt
-          options=("RemoveAndInsert" "backToParentMenu")
+          options=("InstallTrustore" "backToParentMenu")
           select choice in "${options[@]}"; do
           case "$choice" in
-          "RemoveAndInsert")
+          "InstallTrustore")
                     print_info "Input received from user to Remove and Insert Trustore"
-                        if confirm_action "RemoveandInsert" "TrustStore"; then
+                        if confirm_action "Install" "TrustStore"; then
 						                download_ks
                         else
-                          echo "RemoveandInsert of TrustStore aborted."
+                          echo "Install TrustStore action aborted."
                         fi
                        break;
                         ;;

@@ -59,5 +59,12 @@ we can use below command
 [14:21] Gautham Gajula
    ps -ef | grep dxp
 
+https://stackoverflow.com/questions/17219174/variables-set-in-bashrc-and-accessing-them-in-shellscript
 
-   https://stackoverflow.com/questions/17219174/variables-set-in-bashrc-and-accessing-them-in-shellscript
+
+WSPOrcess: 
+
+Log File: <#> 20231030 14:27:06.148  000000007  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 main.Thread-51       WebSvcProcess.Jetty9Mgr ] 
+ Creating jetty server with SSL on 0.0.0.0:9743
+
+ SSL.{P1G1_WSPROCESS1}.KEYSTORE = sm_ks/pass_batch
