@@ -50,7 +50,6 @@ nohup ./standalone.sh -Djboss.socket.binding.port-offset=2 -b 0.0.0.0 &
 SIT Jboss Location: (SIT)
    /hlfapp/dxp/EAP-7.4.6/bin
 
-
 [14:19] Gautham Gajula
 Manikannan Marimuthu - check for /hlfapp/dxp path and offset word
 [14:21] Gautham Gajula
@@ -60,11 +59,3 @@ we can use below command
    ps -ef | grep dxp
 
 https://stackoverflow.com/questions/17219174/variables-set-in-bashrc-and-accessing-them-in-shellscript
-
-
-WSPOrcess: 
-
-Log File: <#> 20231030 14:27:06.148  000000007  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 main.Thread-51       WebSvcProcess.Jetty9Mgr ] 
- Creating jetty server with SSL on 0.0.0.0:9743
-
- SSL.{P1G1_WSPROCESS1}.KEYSTORE = sm_ks/pass_batch

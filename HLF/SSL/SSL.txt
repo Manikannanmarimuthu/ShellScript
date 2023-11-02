@@ -1,0 +1,27 @@
+WSPOrcess: 
+SSL.{P1G1_WSPROCESS1}.KEYSTORE = sm_ks/pass_batch (Cloud.properties)
+Log File: <#> 20231030 14:27:06.148  000000007  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 main.Thread-51       WebSvcProcess.Jetty9Mgr ] 
+ Creating jetty server with SSL on 0.0.0.0:9743
+
+Online:
+ CloudParam( server.ssl --> ssl.keystore.file) --> If have value for this, SSL enabled else disabled
+
+ <#> 20231102 12:22:45.489  280018001  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 main.main            PRA1.P1G1_WSPROCESS1           ]  P1G1_WSPROCESS1 has started successfully, running in machine HLFVITAPP31/192.168.0.31
+
+
+Scenario1:  #SSL.{P1G1_WSPROCESS1}.KEYSTORE = sm_ks/pass_batch - Warmboot trigger Successfully
+<#> 20231102 12:51:38.950  282004011  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 P1G1.Thread-19       DAPoolManager.DAConnectionPool ]  Connected successfully to database jdbc:mysql://%1$s:%2$s/hlfdxp_pras_sys?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true
+<#> 20231102 12:51:38.981  000000021  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 P1G1.Thread-21       WebSvcProcess.ValidateUserLogin ]  Receive login request for user: dxp adm stg
+<#> 20231102 12:51:39.242  000000021  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 P1G1.Thread-23       WebSvcProcess.FormatConsoleMTM ]  dxp adm stg execute [cmd=WARMBOOT, pid=P1G1_DXPFE1, envid=PRA1, cmdtype=CMDMSG]
+<#> 20231102 12:51:39.446  000000021  EV.INF  [ HLFVITAPP31.P1G1_WSPROCESS1 P1G1.Thread-22       WebSvcProcess.FormatConsoleMTM ]  dxp adm stg execute [cmd=WARMBOOT, pid=P1G1_DXPFE2, envid=PRA1, cmdtype=CMDMSG]
+ 
+Scenario2: SSL.{P1G1_WSPROCESS1}.KEYSTORE = sm_ks/pass_batch_Test - Warmboot trigger Successfully
+
+
+Batch & Batch Admin UI SSL verification.
+
+2023-11-02 13:40:40,087 INFO  [mvision.portal.ui.dao.common.RestTemplateGet] (default task-2) launchjob?jobName=fileSttsValidator&PARAM_1=test api request URL : http://localhost:9843/launchjob?jobName=fileSttsValidator&PARAM_1=test
+2023-11-02 13:40:41,300 ERROR [mvision.portal.ui.dao.common.RestTemplateGet] (default task-2) Exception when calling API :: org.springframework.web.client.HttpClientErrorException$BadRequest: 400 : [Bad Request
+This combination of host and port requires TLS.
+]
+	at deployment.batchadminui.war//org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:101)

@@ -112,7 +112,6 @@ format_and_display_jps() {
   fi
 }
 
-
 shutdown_auth(){
 print_info "Checking the status of the AUTH process..."
 if ps aux | grep -v grep | grep StdAuthAPIApp > /dev/null; then
@@ -212,7 +211,7 @@ if [ "$current_hostname" = "$action_hostname1" ]; then
     else
         display_color "yellow" "It is not running now. Proceeding to start the ONLINE process."
         cd /hlfapp/DXPApp/online/mdynamics/bin/ >> "${LOG}" 2>&1; ./start.sh P1G1_MGR1 >> "${LOG}" 2>&1;
-        sleep 25s
+        sleep 40s
           check_process_status "EnvManager"
           check_process_status "HTTPSrvrGateway"
           check_process_status "DXPHostGateway"
@@ -223,7 +222,7 @@ elif [ "$current_hostname" = "$action_hostname2" ]; then
     else
         display_color "yellow" "It is not running now. Proceeding to start the ONLINE process."
         cd /hlfapp/DXPApp/online/mdynamics/bin/ >> "${LOG}" 2>&1; ./start.sh P1G1_MGR2 >> "${LOG}" 2>&1;
-        sleep 25s
+        sleep 40s
           check_process_status "EnvManager"
           check_process_status "HTTPSrvrGateway"
           check_process_status "DXPHostGateway"
@@ -422,10 +421,11 @@ mv /hlfapp/DXPApp_bk_${NOW}.tar.gz /hlfapp/Deploy/backup/${NOW}/ >>${LOG};
 sleep 2s
 status_check
 
-print_info "Procceding to remove the DXPApp Module. Since Back Done and moved backup file /hlfapp/Deploy/backup/${NOW}"
+print_info "Procceding to remove the DXPApp Module. Since backup done and moved backup file /hlfapp/Deploy/backup/${NOW}"
 cd /hlfapp/; rm -rf DXPApp >>${LOG};
 sleep 2s
 status_check
+
 
 print_info "untar app.tar.gz downloaded deployment package from s3 bucket"
 cd /hlfapp/Deploy/; tar -xzf  app.tar.gz >>${LOG};
@@ -471,6 +471,7 @@ fi
 if [ "$environment" = "uat" ]; then
  print_info "Disabling SSL for AUTH"
    sed -i 's/server.ssl.enabled: true/server.ssl.enabled: false/g' /hlfapp/DXPApp/auth/conf/application.properties
+   sed -i 's/server.ssl.enabled: true/server.ssl.enabled: false/g' /hlfapp/DXPApp/batch/conf/application.properties
 else
   print_info " Since scripts are running $environment not required to disable SSL for AUTH"
 fi
@@ -491,8 +492,12 @@ else
   print_info "Not required any changes with respect Memory related changes"
 fi
 
+if [ "$environment" = "vit" ]||[ "$environment" = "sit" ]; then
 #Trustore entry added to CACerts
 download_ks
+else
+  print_info "Not Applicable $environment environment for Download Keystore"
+fi
 
 start_hlfdxp
 
