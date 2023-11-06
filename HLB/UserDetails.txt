@@ -1,0 +1,8 @@
+URL: http://192.168.0.134:28080/hlbphubui/authenticate/login.page
+
+hlbspgmaker
+Welcome@hlbank2021
+ 
+hlbspgchecker
+Welcome@hlbank2021
+ 
