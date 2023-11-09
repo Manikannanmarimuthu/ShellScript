@@ -404,9 +404,7 @@ start_partitionservice
 }
 
 deploy_hlfdxp(){
-
-  
-
+ 
 shutdown_hlfdxp
 
 format_and_display_jps
@@ -850,7 +848,6 @@ download_ks(){
 	  
     print_info "downloaing the DXP Trust store certficate: "$file_path_loc" and alias name:"$ts_alias
     aws secretsmanager get-secret-value --secret-id ${param_path}"ts/ssl/b64" | jq --raw-output '.SecretString' >$file_path_loc
-
 
     # Check the environment condition
     if [ "$environment" = "vit" ]; then

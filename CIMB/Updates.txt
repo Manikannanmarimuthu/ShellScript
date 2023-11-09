@@ -1,7 +1,7 @@
 Daily Updates: 2023NOV08
-CIMB - Support #736 (Issue-User Creation)
-  - Explained to Perumal and Gayathri.
-  - Following up with Perumal and Gayathri.
-  - Once timeline received from Perumal and Gayathri will provide another update.
-    Friday - 
-        LDAP - OnPremisse (Will check with Kenneth (Kenneth Availed Leave ])) 
+  CIMB - Support #736 (Issue-User Creation)
+     - Explained to Perumal and Gayathri.
+     - Following up with Perumal and Gayathri.
+     - Once timeline received from Perumal and Gayathri will provide another update.
+        Friday - 
+          LDAP - OnPremise (Will check with Kenneth (Kenneth Availed Leave)) 
