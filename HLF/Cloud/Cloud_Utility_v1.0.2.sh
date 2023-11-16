@@ -1,5 +1,4 @@
 #!/bin/bash
-
 export param_path=$PORTFOLIO/$ENVIRONMENT/
 
 # Set the environment variable to specify the desired environment

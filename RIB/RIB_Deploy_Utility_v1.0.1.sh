@@ -33,8 +33,8 @@ action_hostname2=""
 environment=$ENVIRONMENT
 
 # Check the environment variable to determine the hostname
-if [ "$environment" = "vit" ]; then
-  action_hostname1="HLFVITAPP31"
+if [ "$environment" = "dev" ]; then
+  action_hostname1="RIBAPP-173"
   action_hostname2="HLFVITAPP232"
   mysql_connector_jar="/opt/mysql-connector-java-8.0.30/mysql-connector-j-8.0.33.jar"
 elif [ "$environment" = "sit" ]; then
@@ -412,10 +412,16 @@ shutdown_hlfdxp
 
 format_and_display_jps
 
+
+DIRECTORY="/hlfapp/DXPApp"
+
 print_info "Proceeding to take the backup of DXPApp Module"
-cd /hlfapp/; tar -czPf DXPApp_bk_${NOW}.tar.gz DXPApp;
-sleep 5s
-status_check
+if [ -d "$DIRECTORY" ]; then
+  cd /hlfapp/ && tar -czPf DXPApp_bk_${NOW}.tar.gz DXPApp;
+  status_check
+else
+  print_error "The 'DXPApp' directory does not exist. Still proceeding further"
+fi
 
 print_info "Proceeding to move the backup /hlfapp/Deploy/backup/${NOW} location"
 mv /hlfapp/DXPApp_bk_${NOW}.tar.gz /hlfapp/Deploy/backup/${NOW}/ >>${LOG};
@@ -483,7 +489,7 @@ else
   print_info " Since scripts are running $environment not required to enable New Relic"
 fi
 
-if [ "$environment" = "vit" ]; then
+if [ "$environment" = "dev" ]; then
 print_info "Updating Memory related changes"
  sed -i 's/export JAVA_OPTS="-Xmx2048m"/export JAVA_OPTS="-Xmx512m"/g' /hlfapp/DXPApp/inquiry/bin/setenv.sh
  sed -i 's/export JAVA_OPTS="-Xmx2048m"/export JAVA_OPTS="-Xmx512m"/g' /hlfapp/DXPApp/auth/bin/setenv.sh
@@ -493,7 +499,7 @@ else
   print_info "Not required any changes with respect Memory related changes"
 fi
 
-if [ "$environment" = "vit" ]||[ "$environment" = "sit" ]; then
+if [ "$environment" = "dev" ]||[ "$environment" = "sit" ]; then
 #Trustore entry added to CACerts
 download_ks
 else
@@ -852,7 +858,7 @@ download_ks(){
     aws secretsmanager get-secret-value --secret-id ${param_path}"ts/ssl/b64" | jq --raw-output '.SecretString' >$file_path_loc
 
     # Check the environment condition
-    if [ "$environment" = "vit" ]; then
+    if [ "$environment" = "dev" ]; then
       print_info "deleting the existing DXP alias name:"$ts_alias" from java cacerts"
       #delete certficate
       keytool -delete -cacerts -alias $ts_alias -storepass changeit

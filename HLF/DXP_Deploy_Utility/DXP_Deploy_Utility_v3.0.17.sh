@@ -412,10 +412,16 @@ shutdown_hlfdxp
 
 format_and_display_jps
 
+
+DIRECTORY="/hlfapp/DXPApp"
+
 print_info "Proceeding to take the backup of DXPApp Module"
-cd /hlfapp/; tar -czPf DXPApp_bk_${NOW}.tar.gz DXPApp;
-sleep 5s
-status_check
+if [ -d "$DIRECTORY" ]; then
+  cd /hlfapp/ && tar -czPf DXPApp_bk_${NOW}.tar.gz DXPApp;
+  status_check
+else
+  print_error "The 'DXPApp' directory does not exist. Still proceeding further"
+fi
 
 print_info "Proceeding to move the backup /hlfapp/Deploy/backup/${NOW} location"
 mv /hlfapp/DXPApp_bk_${NOW}.tar.gz /hlfapp/Deploy/backup/${NOW}/ >>${LOG};
