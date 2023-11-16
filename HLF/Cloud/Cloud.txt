@@ -1,7 +1,0 @@
-Formmula used in Cloud 
-
-#In this formula, if the value in cell D3 is "SecretManager," it will use the AWS Secrets Manager formula, and if the value is "ParameterStore," it will use the AWS Systems Manager Parameter Store formula. 
-You can adjust the formula to suit your specific needs and update the conditions in the IF statement accordingly.
-
-=IF(D20="SecretManager", CONCATENATE("aws secretsmanager get-secret-value --secret-id ", SUBSTITUTE(C20, "{env}", H$1), " --query SecretString --output text"), 
-IF(D20="ParameterStore", CONCATENATE("aws ssm get-parameter --name ", SUBSTITUTE(C20, "{env}",  H$1), " --query Parameter.Value --output text"), ""))
