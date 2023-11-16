@@ -61,6 +61,9 @@ run_aws_secretsmanager_command "hlfdxp/vit/ks/pass_wsprocess" "/hlfdxp/vit/ks/pa
 # Add more Secrets Manager commands as needed
 
 # Run the AWS SSM Parameter Store commands and capture the output
+run_aws_ssm_parameter_command "/hlfdxp/vit/auth_app_lb_url" "/hlfdxp/vit/auth_app_lb_url"
+run_aws_ssm_parameter_command "/hlfdxp/vit/host1_name" "/hlfdxp/vit/host1_name"
+run_aws_ssm_parameter_command "/hlfdxp/vit/host2_name" "/hlfdxp/vit/host2_name"
 run_aws_ssm_parameter_command "/hlfdxp/vit/dxpfe_host_port" "/hlfdxp/vit/dxpfe_host_port"
 run_aws_ssm_parameter_command "/hlfdxp/vit/btshost1_ip" "/hlfdxp/vit/btshost1_ip"
 run_aws_ssm_parameter_command "/hlfdxp/vit/btshost2_ip" "/hlfdxp/vit/btshost2_ip"
@@ -83,8 +86,9 @@ run_aws_ssm_parameter_command "/hlfdxp/vit/wsprocess/queue_name" "/hlfdxp/vit/ws
 run_aws_ssm_parameter_command "/hlfdxp/vit/whitelist/wsprocess" "/hlfdxp/vit/whitelist/wsprocess"
 run_aws_ssm_parameter_command "/hlfdxp/vit/wsprocess1_resp_queue" "/hlfdxp/vit/wsprocess1_resp_queue"
 run_aws_ssm_parameter_command "/hlfdxp/vit/wsprocess2_resp_queue" "/hlfdxp/vit/wsprocess2_resp_queue"
+run_aws_ssm_parameter_command "/hlfdxp/vit/bts_api_host" "/hlfdxp/vit/bts_api_host"
+run_aws_ssm_parameter_command "/hlfdxp/vit/bts_api_trxn_sts" "/hlfdxp/vit/bts_api_trxn_sts"
 # Add more Parameter Store commands as needed
-
 
 run_aws_secretsmanager_command
 run_aws_ssm_parameter_command 
