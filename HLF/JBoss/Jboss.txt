@@ -62,3 +62,6 @@ we can use below command
    ps -ef | grep dxp
 
 https://stackoverflow.com/questions/17219174/variables-set-in-bashrc-and-accessing-them-in-shellscript
+
+
+JBOSS - MYSQL Configuration: http://www.sgaemsolutions.com/2019/07/add-mysql-driver-and-creation-of.html
