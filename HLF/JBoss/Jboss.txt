@@ -65,3 +65,4 @@ https://stackoverflow.com/questions/17219174/variables-set-in-bashrc-and-accessi
 
 
 JBOSS - MYSQL Configuration: http://www.sgaemsolutions.com/2019/07/add-mysql-driver-and-creation-of.html
+                        https://www.youtube.com/watch?v=q9bLCP-bH-U

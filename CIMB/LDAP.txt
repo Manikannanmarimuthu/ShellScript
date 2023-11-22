@@ -1,0 +1,50 @@
+aws ssm get-parameter --name "/sgps/bp/vit/ldap_url" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/bp/vit/ldap_domain" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/bp/vit/ldap_domainname_pattern" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/bp/vit/ldap_authmode" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/bp/vit/ldap_no_ssl" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/bp/vit/ldap_sec_protocol" --query Parameter.Value --output text
+
+/sgps/bp/vit/ldap_url : ldap://ldap.mvitech-aws.local:389
+/sgps/bp/vit/ldap_domain:dc=mvitech-aws,dc=local
+/sgps/bp/vit/ldap_domainname_pattern:uid=$USER_ID$, ou=people,dc=mvitech-aws,dc=local
+/sgps/bp/vit/ldap_authmode:simple
+/sgps/bp/vit/ldap_no_ssl:TRUE
+/sgps/bp/vit/ldap_sec_protocol: ssl
+
+aws ssm get-parameter --name "/sgps/rt/vit/ldap_url" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/rt/vit/ldap_domain" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/rt/vit/ldap_domainname_pattern" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/rt/vit/ldap_authmode" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/rt/vit/ldap_no_ssl" --query Parameter.Value --output text
+aws ssm get-parameter --name "/sgps/rt/vit/ldap_sec_protocol" --query Parameter.Value --output text
+
+/sgps/rt/vit/ldap_url : ldap://ldap.mvitech-aws.local:389
+/sgps/rt/vit/ldap_domain:dc=mvitech-aws,dc=local
+/sgps/rt/vit/ldap_domainname_pattern:uid=$USER_ID$, ou=people,dc=mvitech-aws,dc=local
+/sgps/rt/vit/ldap_authmode:simple
+/sgps/rt/vit/ldap_no_ssl:TRUE
+/sgps/rt/vit/ldap_sec_protocol: ssl
+
+Application Name: BIZOPSUI
+    cimbpsmaker : 3WHrSgSu
+    cimbpschecker : 3WHrSgSu
+    cimbpsmkrchkr : 3WHrSgSu
+ 
+Application Name: BIZOPSUI-WARMBOOT: 
+    cimbadmin : 3WHrSgSu
+ 
+Application Name : WEBUI:
+    configmaker : 3WHrSgSu
+    configchecker : 3WHrSgSu
+    cimbwebadmin : 3WHrSgSu
+ 
+Application Name: BATCHADMINUI:
+    batchadmin : 3WHrSgSu
+ 
+Application Name: MDynamics Consle:
+    mvisupport : 3WHrSgSu 
+	
+	
+	PWD-UPD-DATE - 90 DAYS
+	LAST_SUCC- 90
