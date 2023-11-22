@@ -12,6 +12,8 @@ aws ssm get-parameter --name "/sgps/bp/vit/ldap_sec_protocol" --query Parameter.
 /sgps/bp/vit/ldap_no_ssl:TRUE
 /sgps/bp/vit/ldap_sec_protocol: ssl
 
+
+RT:
 aws ssm get-parameter --name "/sgps/rt/vit/ldap_url" --query Parameter.Value --output text
 aws ssm get-parameter --name "/sgps/rt/vit/ldap_domain" --query Parameter.Value --output text
 aws ssm get-parameter --name "/sgps/rt/vit/ldap_domainname_pattern" --query Parameter.Value --output text
@@ -45,6 +47,6 @@ Application Name: BATCHADMINUI:
 Application Name: MDynamics Consle:
     mvisupport : 3WHrSgSu 
 	
-	
+Scenario to be tested:    
 	PWD-UPD-DATE - 90 DAYS
 	LAST_SUCC- 90
