@@ -1,0 +1,4 @@
+1. Navigate to  cd /hlfapp/uat/logs
+2. aws s3 ls s3://mvi-logs-sit/2023-11-23
+3. aws s3 cp s3://mvi-logs-sit/2023-11-23/uat-dxp-online-app-01a_247-2023-11-23-logs.zip .
+4. aws s3 cp s3://mvi-logs-sit/2023-11-23/uat-dxp-online-app-01b_247-2023-11-23-logs.zip .

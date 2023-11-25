@@ -7,7 +7,7 @@
 ###################################
 #Author : MVI
 #
-#Date : 31-OCT-2023
+#Date : 24-NOV-2023
 #
 #This script is used to Deploy DXP Application
 ####################################
@@ -118,7 +118,8 @@ format_and_display_jps() {
 shutdown_auth(){
 print_info "Checking the status of the AUTH process..."
 if ps aux | grep -v grep | grep StdAuthAPIApp > /dev/null; then
-  display_color "yellow" " It is running now. Proceeding to shutdown the Auth process."
+  display_color "yellow" "It is running now."
+  display_color "red" "Proceeding to shutdown the Auth process."
   sh /hlfapp/DXPApp/auth/bin/shutdown_auth.sh  >> "${LOG}" 2>&1;
   sleep 5s
   check_process_status "StdAuthAPIApp"
@@ -131,7 +132,8 @@ fi
 start_auth(){
 print_info "Checking the status of the AUTH process..."
 if ! ps aux | grep -v grep | grep -q StdAuthAPIApp >> "${LOG}" 2>&1; then
-  display_color "yellow" " It is not running now. Proceeding to start the AUTH process."
+  display_color "yellow" "It is not running now."
+  display_color "green" "Proceeding to start the AUTH process."
   cd /hlfapp/DXPApp/auth/bin/ >> "${LOG}" 2>&1; ./start_auth.sh >> "${LOG}" 2>&1;
   sleep 5s
   check_process_status "StdAuthAPIApp"
@@ -149,7 +151,8 @@ start_auth
 shutdown_datasync(){
 print_info "Checking the status of the DATASYNC process..."
 if ps aux | grep -v grep | grep StdDSAPIApp > /dev/null; then
-   display_color "yellow" " It is running now. Proceeding to shutdown the DATASYNC process."
+   display_color "yellow" "It is running now."
+   display_color "red" "Proceeding to shutdown the DATASYNC process."
    sh /hlfapp/DXPApp/datasync/bin/shutdown_ds.sh >> "${LOG}" 2>&1;
   sleep 5s
     check_process_status "StdDSAPIApp"
@@ -162,7 +165,8 @@ fi
 start_datasync(){
 print_info "Checking the status of the DATASYNC process..."
 if ! ps aux | grep -v grep | grep StdDSAPIApp >> "${LOG}" 2>&1; then
-  display_color "yellow" " It is not running now. Proceeding to start the DATASYNC process."
+  display_color "yellow" "It is not running now."
+  display_color "green" "Proceeding to start the DATASYNC process."
   cd /hlfapp/DXPApp/datasync/bin/ >> "${LOG}" 2>&1; ./start_ds.sh >> "${LOG}" 2>&1;
   sleep 5s
   check_process_status "StdDSAPIApp"
@@ -179,7 +183,8 @@ start_datasync
 start_inquiry(){
 print_info "Checking the status of the INQUIRY process..."
 if ! ps aux | grep -v grep | grep StdInquiryAPIApp >> "${LOG}" 2>&1; then
-  display_color "yellow" " It is not running now. Proceeding to start the INQUIRY process."
+  display_color "yellow" "It is not running now."
+  display_color "green" "Proceeding to start the INQUIRY process."
   cd /hlfapp/DXPApp/inquiry/bin/ >> "${LOG}" 2>&1; ./start_inquiry.sh >> "${LOG}" 2>&1;
   sleep 5s
   check_process_status "StdInquiryAPIApp"
@@ -191,7 +196,8 @@ fi
 shutdown_inquiry(){
   print_info "Checking the status of the INQUIRY process..."
 if ps aux | grep -v grep | grep StdInquiryAPIApp > /dev/null; then
-  display_color "yellow" " It is running now. Proceeding to shutdown the INQUIRY process."
+  display_color "yellow" "It is running now."
+  display_color "red" "Proceeding to shutdown the INQUIRY process."
   sh /hlfapp/DXPApp/inquiry/bin/shutdown_inquiry.sh >> "${LOG}" 2>&1;
   sleep 5s
   check_process_status "StdInquiryAPIApp"
@@ -212,7 +218,8 @@ if [ "$current_hostname" = "$action_hostname1" ]; then
     if  ps aux | grep -v grep | grep EnvManager > /dev/null ||  ps aux | grep -v grep | grep HTTPSrvrGateway > /dev/null  ||  ps aux | grep -v grep | grep DXPHostGateway > /dev/null; then
         display_color "red" "ONLINE Process is not running now."
     else
-        display_color "yellow" "It is not running now. Proceeding to start the ONLINE process."
+        display_color "yellow" "It is not running now."
+        display_color "green" "Proceeding to start the ONLINE process."
         cd /hlfapp/DXPApp/online/mdynamics/bin/ >> "${LOG}" 2>&1; ./start.sh P1G1_MGR1 >> "${LOG}" 2>&1;
         sleep 40s
           check_process_status "EnvManager"
@@ -223,7 +230,8 @@ elif [ "$current_hostname" = "$action_hostname2" ]; then
      if  ps aux | grep -v grep | grep EnvManager > /dev/null ||  ps aux | grep -v grep | grep HTTPSrvrGateway > /dev/null  ||  ps aux | grep -v grep | grep DXPHostGateway > /dev/null; then
         display_color "red" "ONLINE Process is not running now."
     else
-        display_color "yellow" "It is not running now. Proceeding to start the ONLINE process."
+        display_color "yellow" "It is not running now."
+        display_color "green" "Proceeding to start the ONLINE process."
         cd /hlfapp/DXPApp/online/mdynamics/bin/ >> "${LOG}" 2>&1; ./start.sh P1G1_MGR2 >> "${LOG}" 2>&1;
         sleep 40s
           check_process_status "EnvManager"
@@ -238,9 +246,10 @@ fi
 shutdown_online(){
 print_info "Checking the status of the ONLINE (EnvManager,HTTPSrvrGateway, and DXPHostGateway) process..."
 if  ps aux | grep -v grep | grep EnvManager > /dev/null ||  ps aux | grep -v grep | grep HTTPSrvrGateway > /dev/null  ||  ps aux | grep -v grep | grep DXPHostGateway > /dev/null; then
-  display_color "yellow" "It is running now. Proceeding to shutdown the ONLINE process. "
+  display_color "yellow" "It is running now."
+  display_color "red" "Proceeding to shutdown the ONLINE process. "
   sh /hlfapp/DXPApp/online/mdynamics/bin/stop.sh &>>${LOG};
-    display_color "yellow" "Shutdown Initiated. Hold on.... It takes time... "
+  display_color "yellow" "Shutdown Initiated. Hold on.... It takes time... "
  sleep 25s
   check_process_status "EnvManager"
   check_process_status "HTTPSrvrGateway"
@@ -261,7 +270,8 @@ shutdown_batch(){
 if [ "$current_hostname" = "$action_hostname1" ]; then
 print_info "Checking the status of the BATCH process..."
     if ps aux | grep -v grep | grep StdBatchApp > /dev/null; then
-      display_color "yellow" " It is running now. Proceeding to shutdown the BATCH process."
+      display_color "yellow" "It is running now."
+      display_color "red" "Proceeding to shutdown the BATCH process."
       sh /hlfapp/DXPApp/batch/bin/shutdown_bp.sh >> "${LOG}" 2>&1;
       sleep 10s
       check_process_status "StdBatchApp"
@@ -280,7 +290,8 @@ start_batch(){
 if [ "$current_hostname" = "$action_hostname1" ]; then
 print_info "Checking the status of the BATCH process..."
     if ! ps aux | grep -v grep | grep StdBatchApp >> "${LOG}" 2>&1; then
-        display_color "yellow" " It is not running now. Proceeding to start the BATCH process."
+        display_color "yellow" "It is not running now."
+        display_color "green" "Proceeding to start the BATCH process."
         cd /hlfapp/DXPApp/batch/bin/ >> "${LOG}" 2>&1; ./start_bp.sh >> "${LOG}" 2>&1;
         sleep 25s
           check_process_status "StdBatchApp"
@@ -304,7 +315,8 @@ shutdown_partitionservice(){
 if [ "$current_hostname" = "$action_hostname1" ]; then
 print_info "Checking the status of the PARTITIONSERVICE process..."
   if ps aux | grep -v grep | grep PartitionService > /dev/null; then
-     display_color "yellow" " It is running now. Proceeding to shutdown the PARTITIONSERVICE process."
+     display_color "yellow" "It is running now."
+     display_color "red" "Proceeding to shutdown the PARTITIONSERVICE process."
      sh /hlfapp/DXPApp/partitionservice/bin/shutdown_ps.sh >> "${LOG}" 2>&1;
      sleep 10s
     check_process_status "PartitionService"
@@ -323,7 +335,8 @@ start_partitionservice(){
 if [ "$current_hostname" = "$action_hostname1" ]; then
 print_info "Checking the status of the PARTITIONSERVICE process..."
     if ! ps aux | grep -v grep | grep PartitionService >> "${LOG}" 2>&1; then
-        display_color "yellow" " It is not running now Proceeding to start the PARTITIONSERVICE process."
+        display_color "yellow" "It is not running now."
+        display_color "green" "Proceeding to start the PARTITIONSERVICE process."
         cd /hlfapp/DXPApp/partitionservice/bin/ >> "${LOG}" 2>&1; ./start_ps.sh >> "${LOG}" 2>&1;
         sleep 25s
           check_process_status "PartitionService"
@@ -352,7 +365,8 @@ shutdown_wsprocess(){
   if [ "$current_hostname" = "$action_hostname1" ]; then
    print_info "Checking the status of the WSPROCESS service..."
     if ps aux | grep -v grep | grep WebSvcProcess > /dev/null; then
-        display_color "yellow" " It is running now Proceeding to shutdown the WSPROCESS service."
+        display_color "yellow" " It is running now."
+        display_color "red" "Proceeding to shutdown the WSPROCESS service."
           cd /hlfapp/DXPApp/online/mdynamics/bin/ >> "${LOG}" 2>&1; ./stopWSP.sh >> "${LOG}" 2>&1;
         sleep 10s
         check_process_status "WebSvcProcess"
@@ -371,7 +385,8 @@ start_wsprocess(){
 if [ "$current_hostname" = "$action_hostname1" ]; then
 print_info "Checking the status of the WSPROCESS service..."
     if ! ps aux | grep -v grep | grep WebSvcProcess >> "${LOG}" 2>&1; then
-        display_color "yellow" " It is not running now. Proceeding to start the WSPROCESS service."
+        display_color "yellow" "It is not running now."
+        display_color "green" "Proceeding to start the WSPROCESS service."
         cd /hlfapp/DXPApp/online/mdynamics/bin/ >> "${LOG}" 2>&1; ./startWSP.sh P1G1_WSPROCESS1 >> "${LOG}" 2>&1;
         sleep 10s
           check_process_status "WebSvcProcess"
@@ -414,13 +429,19 @@ format_and_display_jps
 
 DIRECTORY="/hlfapp/DXPApp"
 
-print_info "Taking backup of DXPApp Module and move folder to /hlfapp/Deploy/backup/${NOW} "
+print_info "Proceeding to take the backup of DXPApp Module"
 if [ -d "$DIRECTORY" ]; then
+  print_info "$DIRECTORY available. Proceeding to take the backup of DXPApp Module"
   cd /hlfapp/ && tar -czPf DXPApp_bk_${NOW}.tar.gz DXPApp;
+  status_check
   sleep 2s
+  print_info "Proceeding to move the backup /hlfapp/Deploy/backup/${NOW} location"
   mv /hlfapp/DXPApp_bk_${NOW}.tar.gz /hlfapp/Deploy/backup/${NOW}/ >>${LOG};
+  status_check
   sleep 2s
+  print_info "Procceding to remove the DXPApp Module. Since backup done and moved backup file /hlfapp/Deploy/backup/${NOW}"
   cd /hlfapp/; rm -rf DXPApp >>${LOG};
+  status_check
   sleep 2s
 else
   print_info "The 'DXPApp' directory does not exist. Still proceeding further.Considering this as the first time deployment."
@@ -441,22 +462,22 @@ print_info "Proceeding to remove the app folder from the deploymnet location Sin
 rm -rf /hlfapp/Deploy/DXPApp >>${LOG};
 status_check
 
-print_info "untar DXPApp.tar.gz downloaded deployment package from s3 bucket"
+print_info "untar DXPApp.tar.gz backup Since we need restore log files"
 cd /hlfapp/Deploy/backup/${NOW}; tar -xzf  DXPApp_bk_${NOW}.tar.gz >>${LOG};
 sleep 5s
 status_check
+
+print_info "Taking backup of DXPApp Module and move folder to /hlfapp/Deploy/backup/${NOW} "
+if [ -d "$DIRECTORY" ]; then
+  restore_logfiles
+else
+  print_info "Since First Deployment No need restore any log files"
+fi
 
 print_info "Proceeding to move the Deployed app.tar.gz /hlfapp/Deploy/backup/${NOW} location"
 mv /hlfapp/Deploy/app.tar.gz /hlfapp/Deploy/backup/${NOW}/ >>${LOG};
 sleep 2s
 status_check
-
-print_info "Taking backup of DXPApp Module and move folder to /hlfapp/Deploy/backup/${NOW} "
-if [ -d "$DIRECTORY" ]; then
-  print_info "Since First Deployment No need restore any log files"
-else
-  restore_logfiles
-fi
 
 enable_mysql
 
@@ -488,13 +509,13 @@ else
   print_info "Not required any changes with respect Memory related changes"
 fi
 
-if [ "$environment" = "vit" ]||[ "$environment" = "sit" ]||[ "$environment" = "uat" ]; then
+#if [ "$environment" = "vit" ]||[ "$environment" = "sit" ]||[ "$environment" = "uat" ]; then
 #Trustore entry added to CACerts
-download_ks_for_dxp
-download_ks_for_bts
-else
-  print_info "Not Applicable $environment environment for Download Keystore"
-fi
+#download_ks_for_dxp
+#download_ks_for_bts
+#else
+  #print_info "Not Applicable $environment environment for Download Keystore"
+#fi
 
 start_hlfdxp
 
@@ -575,11 +596,16 @@ else
     echo "Hostname does not match any expected hostnames"
 fi
 
+print_info "Procceding to remove the DXPApp Module from backup folder . Since Back Done and moved backup file /hlfapp/Deploy/backup/${NOW}"
+cd /hlfapp/Deploy/backup/${NOW}/; rm -rf DXPApp >>${LOG};
+sleep 2s
+status_check
+
 }
 
 enable_mysql(){
 
-if [ "$environment" = "uat" ]; then
+if [ "$environment" = "prd" ]; then
       print_info "Since not SoftLink enabled in $environment so copying mysql-connector-j-8.0.33.jar and placing into appropriate location."
 cp /hlfapp/DXPApp/batch/lib/mysql-connector-j-8.0.33.jar  /hlfapp/DXPApp/online/mdynamics/lib/3rdparty/;
 cp /hlfapp/DXPApp/batch/lib/mysql-connector-j-8.0.33.jar /hlfapp/DXPApp/online/mdynamics/process/wsprocess/3rdparty/;

@@ -51,6 +51,8 @@ run_aws_secretsmanager_command "hlfdxp/$environment/cert/tcp_sec/bts" "/hlfdxp/$
 run_aws_secretsmanager_command "hlfdxp/$environment/cred/wsprocess" "/hlfdxp/$environment/cred/wsprocess"
 run_aws_secretsmanager_command "hlfdxp/$environment/ts/ssl" "/hlfdxp/$environment/ts/ssl"
 run_aws_secretsmanager_command "hlfdxp/$environment/ts/ssl/b64" "/hlfdxp/$environment/ts/ssl/b64"
+run_aws_secretsmanager_command "hlfdxp/$environment/ts/ssl" "/hlfdxp/$environment/ts/ssl"
+run_aws_secretsmanager_command "hlfdxp/$environment/ts/ssl/b64" "/hlfdxp/$environment/ts/ssl/b64"
 run_aws_secretsmanager_command "hlfdxp/$environment/ks/pass_wsprocess" "/hlfdxp/$environment/ks/pass_wsprocess"
 
 # Run the AWS SSM Parameter Store commands and capture the output
