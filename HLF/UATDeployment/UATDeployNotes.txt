@@ -74,12 +74,25 @@ aws s3 cp v3.0.19_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.19/v3.0.19_
 Sync DXP Online depoloy version
 aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.19/v3.0.19_Online.zip s3://mvi-deployment-uat/v3.0.19/v3.0.19_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
 
+Ver3.0.20_Online:
+Copy DXP Online to S3
+aws s3 cp v3.0.20_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.20/v3.0.20_Online.zip
+Sync DXP Online depoloy version
+aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.20/v3.0.20_Online.zip s3://mvi-deployment-uat/v3.0.20/v3.0.20_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
 
 
-To disable 2nd BTSGW station --
-update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW1_BK' where STATION_PROFILE = 'BTS_HCID_GW1' and STATION_NAME = 'BTS_HCID_STT2';
-update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW2_BK' where STATION_PROFILE = 'BTS_HCID_GW2' and STATION_NAME = 'BTS_HCID_STT2';
- 
--- To enable 2nd BTSGW station --
-update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW1' where STATION_PROFILE = 'BTS_HCID_GW1_BK' and STATION_NAME = 'BTS_HCID_STT2';
-update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW2' where STATION_PROFILE = 'BTS_HCID_GW2_BK' and STATION_NAME = 'BTS_HCID_STT2';
+Ver3.0.21_Online:
+Copy DXP Online to S3
+aws s3 cp v3.0.21_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.21/v3.0.21_Online.zip
+Sync DXP Online depoloy version
+aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.21/v3.0.21_Online.zip s3://mvi-deployment-uat/v3.0.21/v3.0.21_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
+
+
+
+28-NOV-2023
+   
+1. SELECT * FROM `processdirectory` WHERE process_id IN ('P1G1_BTSGW2','P1G1_DXPFE2')
+
+2. To disable 2nd BTSGW station --
+    update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW1_BK' where STATION_PROFILE = 'BTS_HCID_GW1' and STATION_NAME = 'BTS_HCID_STT2';
+    update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW2_BK' where STATION_PROFILE = 'BTS_HCID_GW2' and STATION_NAME = 'BTS_HCID_STT2';

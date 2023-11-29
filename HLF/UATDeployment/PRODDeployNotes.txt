@@ -1,0 +1,29 @@
+
+28-NOV-2023
+   
+1. SELECT * FROM `processdirectory` WHERE process_id IN ('P1G1_BTSGW2','P1G1_DXPFE2')
+
+2. To disable 2nd BTSGW station --
+    Update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW1_BK' where STATION_PROFILE = 'BTS_HCID_GW1' and STATION_NAME = 'BTS_HCID_STT2';
+    Update hlfdxp_pra1_envcmm.gwstationprofilecfg set STATION_PROFILE = 'BTS_HCID_GW2_BK' where STATION_PROFILE = 'BTS_HCID_GW2' and STATION_NAME = 'BTS_HCID_STT2';
+
+
+PRE PROD Setup:
+1b - We have deployed - SSL
+
+Checked with Stefanus Pre Prod Online Process.
+<#> 20231127 18:16:20.947  000000111  EV.INF  [ prd-dxp-online-app-01b.P1G1_MGR2 P1G1.Thread-3        EnvManager.ProcessManager      ]  Ignore starting P1G1_BTSGW2. The process is configured as manual-start
+<#> 20231127 18:16:20.947  000000111  EV.INF  [ prd-dxp-online-app-01b.P1G1_MGR2 P1G1.Thread-3        EnvManager.ProcessManager      ]  Ignore starting P1G1_DXPFE2. The process is configured as manual-start
+
+SELECT * FROM `processdirectory` WHERE process_id IN ('P1G1_BTSGW2','P1G1_DXPFE2')
+
+1a - Will plan to deploy by today.
+
+Will plan for Batch Admin UI Deployment for Tomorrow.
+
+UAT: 
+AccessDenied Exception - EarMark File?
+
+EarMark Folder Access Folder Exception:
+  
+LDAP  for Pre PROD ? 

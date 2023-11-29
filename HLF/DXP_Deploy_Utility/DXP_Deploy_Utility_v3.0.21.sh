@@ -594,13 +594,13 @@ cd /hlfapp/Deploy/backup/${NOW}/; rm -rf DXPApp >>${LOG};
 sleep 2s
 status_check
 
-#if [ "$environment" = "vit" ]||[ "$environment" = "sit" ]||[ "$environment" = "uat" ]; then
+if [ "$environment" = "vit" ]||[ "$environment" = "sit" ]||[ "$environment" = "uat" ]; then
 #Trustore entry added to CACerts
 download_ks_for_dxp
 download_ks_for_bts
-#else
-  #print_info "Not Applicable $environment environment for Download Keystore"
-#fi
+else
+  print_info "Not Applicable $environment environment for Download Keystore"
+fi
 
 start_hlfdxp
 
