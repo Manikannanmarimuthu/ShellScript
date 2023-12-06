@@ -1286,7 +1286,7 @@ function inner_select() {
             done
 		done
         ;;
-        ForceShutdown"(1b)")
+        ForceShutdown_1b)
           while true; do
           PS3="Select an option from the listed above: "  # Customize the prompt
           options=("BATCH" "WSPROCESS" "PARTITIONSERVICE" "backToParentMenu")
@@ -1296,7 +1296,7 @@ function inner_select() {
 					      print_info "Input received from user to SHUTDOWN HLF-DXP BATCH Service"
                     if confirm_action "Shutdown" "BATCH"; then
 						          if [ "$current_hostname" = "$action_hostname1" ]; then
-                        echo "Force Start not applicable for $action_hostname1 applicable only $action_hostname2 if need start in $action_hostname1,
+                        echo "Force Shutdown not applicable for $action_hostname1 applicable only $action_hostname2 if need start in $action_hostname1,
                         Kindly use Option 2 (SHUTDOWN)"
                         elif [ "$current_hostname" = "$action_hostname2" ]; then
                             shutdown_batch
@@ -1313,7 +1313,7 @@ function inner_select() {
 					             print_info "Input received from user to SHUTDOWN HLF-DXP WSPROCESS Service"
                         if confirm_action "Shutdown" "WSPROCESS"; then
                             if [ "$current_hostname" = "$action_hostname1" ]; then
-                              echo "Force Start not applicable for $action_hostname1 applicable only $action_hostname2 if need start in $action_hostname1,
+                              echo "Force Shutdown not applicable for $action_hostname1 applicable only $action_hostname2 if need start in $action_hostname1,
                         Kindly use Option 2 (SHUTDOWN)"
                             elif [ "$current_hostname" = "$action_hostname2" ]; then
                                 shutdown_wsprocess
@@ -1330,7 +1330,7 @@ function inner_select() {
 					           print_info "Input received from user to SHUTDOWN HLF-DXP PARTITIONSERVICE Service"
                        if confirm_action "Shutdown" "PARTITIONSERVICE"; then
                             if [ "$current_hostname" = "$action_hostname1" ]; then
-					                    echo "Force Start not applicable for $action_hostname1 applicable only $action_hostname2 if need start in $action_hostname1,
+					                    echo "Force Shutdown not applicable for $action_hostname1 applicable only $action_hostname2 if need start in $action_hostname1,
                         Kindly use Option 2 (SHUTDOWN)"
                             elif [ "$current_hostname" = "$action_hostname2" ]; then
                                      shutdown_partitionservice
@@ -1349,7 +1349,7 @@ function inner_select() {
                     *)
                         echo "Invalid option"
                         ;;
-         ForceStart"(1b)")
+         ForceStart_1b)
           while true; do
           PS3="Select an option from the listed above: "  # Customize the prompt
           options=("BATCH" "WSPROCESS" "PARTITIONSERVICE" "backToParentMenu")
@@ -1417,7 +1417,7 @@ function inner_select() {
             done
 		done
         ;;
-    ForceRestart"(1b)")
+    ForceRestart_1b)
           while true; do
           PS3="Select an option from the listed above: "  # Customize the prompt
           options=("BATCH" "WSPROCESS" "PARTITIONSERVICE" "backToParentMenu")
@@ -1441,7 +1441,7 @@ function inner_select() {
                          format_and_display_jps
                         break;
                         ;;
-                  "WSPROCESS")
+          "WSPROCESS")
 					             print_info "Input received from user to restart HLF-DXP WSPROCESS Service"
                          if confirm_action "RESTART" "WSPROCESS"; then
 						                  if [ "$current_hostname" = "$action_hostname1" ]; then
@@ -1458,7 +1458,7 @@ function inner_select() {
                         format_and_display_jps
                         break;
                         ;;
-					        "PARTITIONSERVICE")
+					"PARTITIONSERVICE")
 					              print_info "Input received from user to restart HLF-DXP PARTITIONSERVICE Service"
                             if confirm_action "RESTART" "ONLINE"; then
 						                  if [ "$current_hostname" = "$action_hostname1" ]; then
@@ -1500,7 +1500,7 @@ function inner_select() {
 }
 while true; do
  PS3="Select an option from the listed above : "  # Customize the prompt
-    options=("Deploy" "Shutdown" "Start" "Restart" "TrustStore" "ForceStart(1b)" "ForceShutdown(1b)" "ForceRestart(1b)" "Quit")
+  options=("Deploy" "Shutdown" "Start" "Restart" "TrustStore" "ForceShutdown_1b" "ForceStart_1b" "ForceRestart_1b" "Quit")
     select option in "${options[@]}"; do
         if [[ "$option" ]]; then
             inner_select "$option"  # Pass the selected option to the inner_select function
