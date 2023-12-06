@@ -2,6 +2,8 @@
     ./jboss-cli.sh --connect --controller=192.168.0.31:9990 (VIT)
     ./jboss-cli.sh --connect --controller=localhost:9992 (SIT)
 
+ /subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql, driver-module-name=com.mysql, driver-class-name=com.mysql.cj.jdbc.Driver)
+
 #Create datasources
 /subsystem=datasources/data-source=PRA1_CMM:add(jndi-name=java:/jdbc/PRA1_CMM,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pra1_envcmm?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
 /subsystem=datasources/data-source=PRA1_RTDATA:add(jndi-name=java:/jdbc/PRA1_RTDATA,driver-name=mysql,connection-url="jdbc:mysql://192.168.0.30:3306/hlfdxp_pra1_envrtdata?useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=TRUE&useLegacyDatetimeCode=FALSE&serverTimezone=Asia/Singapore&connectTimeout=5000&useSSL=false&requireSSL=false&sessionVariables=transaction_isolation='READ-COMMITTED'&allowPublicKeyRetrieval=true",user-name=hlfdxpsgadmin,password=R^DZxMJ5nW7jXwA#Uc4S)
@@ -48,7 +50,7 @@ sudo chown -R mviuser:mviuser /hlfapp
 Applicable for only SIT 
 # 9990 already occupied in SIT so we incrementing + 2 9992
 . ./setenv.sh
-nohup ./standalone.sh -Djboss.socket.binding.port-offset=2 -b 0.0.0.0 &
+  nohup ./standalone.sh &
 
 SIT Jboss Location: (SIT)
    /hlfapp/dxp/EAP-7.4.6/bin
@@ -66,3 +68,5 @@ https://stackoverflow.com/questions/17219174/variables-set-in-bashrc-and-accessi
 
 JBOSS - MYSQL Configuration: http://www.sgaemsolutions.com/2019/07/add-mysql-driver-and-creation-of.html
                         https://www.youtube.com/watch?v=q9bLCP-bH-U
+
+                        /subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql, driver-module-name=com.mysql, driver-class-name=com.mysql.cj.jdbc.Driver)
