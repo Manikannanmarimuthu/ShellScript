@@ -1286,7 +1286,7 @@ function inner_select() {
             done
 		done
         ;;
-        ForceShutdown_1b)
+        1b_SingleInstances_Shutdown)
           while true; do
           PS3="Select an option from the listed above: "  # Customize the prompt
           options=("BATCH" "WSPROCESS" "PARTITIONSERVICE" "backToParentMenu")
@@ -1343,13 +1343,17 @@ function inner_select() {
                       format_and_display_jps
                        break;
                         ;;
-				"backToParentMenu")
+			"backToParentMenu")
                         break 2 # return to current (main) menu
                             ;;
                     *)
                         echo "Invalid option"
                         ;;
-         ForceStart_1b)
+                esac
+            done
+		done
+        ;;
+        1b_SingleInstances_Start)
           while true; do
           PS3="Select an option from the listed above: "  # Customize the prompt
           options=("BATCH" "WSPROCESS" "PARTITIONSERVICE" "backToParentMenu")
@@ -1407,7 +1411,7 @@ function inner_select() {
                         format_and_display_jps
                         break
                         ;;
-				"backToParentMenu")
+			"backToParentMenu")
                         break 2 # return to current (main) menu
                             ;;
                     *)
@@ -1417,7 +1421,7 @@ function inner_select() {
             done
 		done
         ;;
-    ForceRestart_1b)
+    1b_SingleInstances_Restart)
           while true; do
           PS3="Select an option from the listed above: "  # Customize the prompt
           options=("BATCH" "WSPROCESS" "PARTITIONSERVICE" "backToParentMenu")
@@ -1475,16 +1479,12 @@ function inner_select() {
                             format_and_display_jps
                              break;
                         ;;
-				"backToParentMenu")
+                    "backToParentMenu")
                         break 2 # return to current (main) menu
                             ;;
                     *)
                         echo "Invalid option"
                         ;;
-                esac
-            done
-		done
-        ;;
                 esac
             done
 		done
@@ -1500,7 +1500,7 @@ function inner_select() {
 }
 while true; do
  PS3="Select an option from the listed above : "  # Customize the prompt
-  options=("Deploy" "Shutdown" "Start" "Restart" "TrustStore" "ForceShutdown_1b" "ForceStart_1b" "ForceRestart_1b" "Quit")
+  options=("Deploy" "Shutdown" "Start" "Restart" "TrustStore" "1b_SingleInstances_Shutdown" "1b_SingleInstances_Start" "1b_SingleInstances_Restart" "Quit")
     select option in "${options[@]}"; do
         if [[ "$option" ]]; then
             inner_select "$option"  # Pass the selected option to the inner_select function
