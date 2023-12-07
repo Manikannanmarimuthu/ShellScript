@@ -2,13 +2,13 @@
 
 #set -x  #debug mode
 #set -e  #If any error available will exit abrubtly.
-#set -o pipefail #To catch the pipe failiure
+#set -o  #pipefail #To catch the pipe failiure
 
-###################################
+######################################################################################
 #Author : MVI
 #Date : 07-DEC-2023
 #This Utility is used to Deploy,start,stop and restart the DXP Application
-####################################
+#######################################################################################
 
 export param_path=$PORTFOLIO/$ENVIRONMENT/
 
