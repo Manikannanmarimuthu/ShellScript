@@ -2,6 +2,35 @@
 HLF: 
   1. SSL Enable for WSProcess.
   2. DXP operational document.
-
 CIMB:
    1. Reply mail to User Verification
+
+08-DEC-2023: 
+ 1. Jackie - recon Mail. - Mail Sent (Status- Completed)
+ 2. Gautham & Stefanus - DXP Utility Demo (Status- Completed)
+ 3. Roll out document needs include about Environment and Release to PD team (Status- InProgress).
+ 4. DXP Batch Admin UI - Login Check. Verified Working Fine. (Status- Completed)
+ 5. Hackett - CIMB AWS Cost Reducing (Status- Yet to start)
+ 6. CIMB Planning - RT & BP Testing (Status- InProgress).
+ 7. Resource Management Updation (Status- Yet to start)
+ 8. Inform to Kenneth about LDAP and IBMMQ - Done. needs to verify
+ 9. RT - Nirmal Fortify Scan fixes. (Status- InProgress).
+ 10. Updated utiity needs to provide
+ 11. HLF Document: (Assigned by Gautham & Alicia )   
+       Manikannan Marimuthu  - the document how to handle different scenarios 
+        -> EOD file not received by cutover time
+        -> EOD file received but corrupted
+        -> EOD files received after DXP switched to Online mode
+        -> EOD file processed and HLF requested to process new set of files after DXP Switched to online
+11. bts\ts\ssl and bts\ts\ssl]b64 Missing 0- Cloud Download.sh 
+12. SVN Request for HLB Scrips.
+
+11-DEC-2023:
+1. Gautham & Stefanus - DXP Utility Demo (Status- Completed)
+2. DXP Batch Admin UI - Login Check. Verified Working Fine. (Status- Completed)
+3. The document how to handle different scenarios Statu$- 
+        -> EOD file not received by cutover time
+        -> EOD file received but corrupted
+        -> EOD files received after DXP switched to Online mode
+        -> EOD file processed and HLF requested to process new set of files after DXP Switched to online
+4.Roll Out Document.

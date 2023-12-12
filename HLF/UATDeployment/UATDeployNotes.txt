@@ -18,14 +18,7 @@ Sync DXP Admin Version
 echo "Sync DXP Admin depoloy version $DEPLOY_UAT_VERSION to UAT S3"
 /usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/v1.0.1/v1.0.1_UAT_DUMP.zip s3://mvi-deployment-uat/v1.0.1/v1.0.1_UAT_DUMP.zip --source-region ap-southeast-1 --region ap-southeast-1 
 
-Hi All, 
-    We are going to deploy DXP in the UAT environment. DXP will be unavailable during the deployment process. We will update you here once the deployment is completed. Thank you.
-
-Hi All, 
-   The DXP service is now up. We can proceed further. Thank you
-
-
-   Ver 3.0.13_Admin:
+Ver 3.0.13_Admin:
 echo "Copy DXP Admin to S3"
 /usr/local/bin/aws s3 cp v3.0.13_admin.zip s3://mvi-deployment-sit/deploy_uat/v3.0.13/v3.0.13_admin.zip
 Sync DXP Admin Version
@@ -87,6 +80,25 @@ aws s3 cp v3.0.21_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.21/v3.0.21_
 Sync DXP Online depoloy version
 aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.21/v3.0.21_Online.zip s3://mvi-deployment-uat/v3.0.21/v3.0.21_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
 
+
+Ver3.0.21_Online:
+Copy DXP Online to S3
+aws s3 cp v3.0.21_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.21/v3.0.21_Online.zip
+Sync DXP Online depoloy version
+aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.21/v3.0.21_Online.zip s3://mvi-deployment-uat/v3.0.21/v3.0.21_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
+
+Ver3.0.22_Online:
+Copy DXP Online to S3
+aws s3 cp v3.0.22_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.22/v3.0.22_Online.zip
+Sync DXP Online depoloy version
+aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.22/v3.0.22_Online.zip s3://mvi-deployment-uat/v3.0.22/v3.0.22_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
+
+
+Hi All, 
+    We are going to deploy DXP in the UAT environment. DXP will be unavailable during the deployment process. We will update you here once the deployment is completed. Thank you.
+
+Hi All, 
+   The DXP service is now up. We can proceed further. Thank you
 
 
 28-NOV-2023
