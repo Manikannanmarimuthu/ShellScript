@@ -100,9 +100,8 @@ Hi All,
 Hi All, 
    The DXP service is now up. We can proceed further. Thank you
 
-
 28-NOV-2023
-   
+  
 1. SELECT * FROM `processdirectory` WHERE process_id IN ('P1G1_BTSGW2','P1G1_DXPFE2')
 
 2. To disable 2nd BTSGW station --
