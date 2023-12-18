@@ -34,3 +34,11 @@ CIMB:
         -> EOD files received after DXP switched to Online mode
         -> EOD file processed and HLF requested to process new set of files after DXP Switched to online
 4.Roll Out Document.
+
+
+15-DEC-2023:
+
+Sathish & Vaishnavi - DXP Operational Document 
+
+Sathish - v3.0.23 VIT Tetsing
+Vaishnavi - v3.0.23 VIT Tetsing

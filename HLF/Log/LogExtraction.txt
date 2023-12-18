@@ -1,4 +1,11 @@
-1. Navigate to  cd /hlfapp/uat/logs
-2. aws s3 ls s3://mvi-logs-sit/2023-11-23
-3. aws s3 cp s3://mvi-logs-sit/2023-11-23/uat-dxp-online-app-01a_247-2023-11-23-logs.zip .
-4. aws s3 cp s3://mvi-logs-sit/2023-11-23/uat-dxp-online-app-01b_247-2023-11-23-logs.zip .
+UAT: 
+   1. Navigate to  cd /hlfapp/uat/logs
+   2. aws s3 ls s3://mvi-logs-sit/2023-11-23
+   3. aws s3 cp s3://mvi-logs-sit/2023-11-23/uat-dxp-online-app-01a_247-2023-11-23-logs.zip .
+   4. aws s3 cp s3://mvi-logs-sit/2023-11-23/uat-dxp-online-app-01b_247-2023-11-23-logs.zip .
+   
+PREPROD
+    1. Navigate to  cd /hlfapp/prd/logs
+    2. aws s3 ls s3://mvi-logs-prd-sync/2023-12-15
+    3. aws s3 cp s3://mvi-logs-prd-sync/2023-12-15/prd-dxp-online-app-01a_246-2023-12-06-logs.zip .
+    4. aws s3 cp s3://mvi-logs-prd-sync/2023-12-15/prd-dxp-online-app-01b_246-2023-12-06-logs.zip .
