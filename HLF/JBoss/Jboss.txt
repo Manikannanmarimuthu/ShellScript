@@ -46,7 +46,6 @@ sudo chown -R mvi1:mvi1 *
 
 sudo chown -R mviuser:mviuser /hlfapp
 
-
 Applicable for only SIT 
 # 9990 already occupied in SIT so we incrementing + 2 9992
 . ./setenv.sh

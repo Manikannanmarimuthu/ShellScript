@@ -93,6 +93,14 @@ aws s3 cp v3.0.22_Online.zip s3://mvi-deployment-sit/deploy_uat/v3.0.22/v3.0.22_
 Sync DXP Online depoloy version
 aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.22/v3.0.22_Online.zip s3://mvi-deployment-uat/v3.0.22/v3.0.22_Online.zip --source-region ap-southeast-1 --region ap-southeast-1
 
+Ver 3.0.13_Admin:
+echo "Copy DXP Admin to S3"
+/usr/local/bin/aws s3 cp v3.0.13_admin.zip s3://mvi-deployment-sit/deploy_uat/v3.0.13/v3.0.13_admin.zip
+Sync DXP Admin Version
+echo "Sync DXP Admin depoloy version $DEPLOY_UAT_VERSION to UAT S3"
+/usr/local/bin/aws s3 sync s3://mvi-deployment-sit/deploy_uat/v3.0.13/v3.0.13_admin.zip s3://mvi-deployment-uat/v3.0.13/v3.0.13_admin.zip --source-region ap-southeast-1 --region ap-southeast-1 
+
+
 
 Hi All, 
     We are going to deploy DXP in the UAT environment. DXP will be unavailable during the deployment process. We will update you here once the deployment is completed. Thank you.
