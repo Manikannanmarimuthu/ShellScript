@@ -1,0 +1,23 @@
+Since Nov does not have date 31 so program by pass the month 11,9 etc.    Logically, it has no issue. 
+That is pretty difficult to capture such problems unless the developer has strong experience and highlight during the development stage. 
+
+We need to inquire from CIMB about few things:
+How does SGPS manage it?
+Is it possible to handle it manually to allow for more time to understand the requirement?
+How many SO record impacted which was scheduled in 31th and Monthly?
+
+
+Select * from mdpy_bzmas_standing_order where so_type='DD' and frequency_type='Monthly' and recurrence_pattern like  '31 * ? *%' and status = 'status='ACTIVE' order by so_creation_date desc;
+Select * from mdpy_bzmas_standing_order where so_type='CT' and frequency_type='Monthly' and recurrence_pattern = '0 0 0 31 * ? *' and  order by so_creation_date desc;
+
+
+Feb - Leap year - 28 & 29 
+
+Hi G3 team,
+
+Pls confirm if Outbound Direct Debit triggered for Sep and Nov for this customer.
+Customer’s MFT is set on 31st monthly however there is no 31st in the months of Sep and Nov and MFT not triggered on the previous business day.
+We have randomly checked other MFTs which are set every 31st monthly and were not triggered as well.
+Please advise urgently.
+
+JAN - 

@@ -6,7 +6,7 @@
 
 ######################################################################################
 #Author : MVI
-#Date : 28-DEC-2023
+#Date : 07-DEC-2023
 #This Utility is used to Deploy,start,stop and restart the DXP Application
 #######################################################################################
 
@@ -116,6 +116,7 @@ check_process_status() {
     display_color "green" "$process_name is running now."
   else
     display_color "red" "$process_name is not running now."
+    echo "*********************************"
   fi
 }
 
@@ -236,7 +237,7 @@ restart_inquiry() {
 
 start_online() {
   print_info "Checking the status of the ONLINE process..."
-  if ps aux | grep -v grep | grep EnvManager >/dev/null || ps aux | grep -v grep | grep HTTPSrvrGateway >/dev/null || ps aux | grep -v grep | grep DXPHostGateway >/dev/null || ps aux | grep -v grep | grep WebSvcProcess >/dev/null; then
+  if ps aux | grep -v grep | grep EnvManager >/dev/null || ps aux | grep -v grep | grep HTTPSrvrGateway >/dev/null || ps aux | grep -v grep | grep DXPHostGateway >/dev/null; then
     display_color "red" "ONLINE Process is not running now."
   else
     display_color "yellow" "It is not running now."
@@ -244,34 +245,27 @@ start_online() {
     cd /hlfapp/DXPApp/online/mdynamics/bin/ >>"${LOG}" 2>&1
     if [ "$current_hostname" = "$action_hostname1" ]; then
       ./start.sh P1G1_MGR1 >>"${LOG}" 2>&1
-      #./startWSP.sh P1G1_WSPROCESS1 >>"${LOG}" 2>&1
     else
       ./start.sh P1G1_MGR2 >>"${LOG}" 2>&1
-      #./startWSP.sh P1G1_WSPROCESS2 >>"${LOG}" 2>&1
     fi
-    sleep 45s
-    check_process_status "EnvManager"
-    check_process_status "HTTPSrvrGateway"
-    check_process_status "DXPHostGateway"
-    sleep 10s
-    check_process_status "WebSvcProcess"
-  fi
-}
-
-shutdown_online() {
-  print_info "Checking the status of the ONLINE (EnvManager,HTTPSrvrGateway,DXPHostGateway,and WebSvcProcess) process..."
-  if ps aux | grep -v grep | grep EnvManager >/dev/null || ps aux | grep -v grep | grep HTTPSrvrGateway >/dev/null || ps aux | grep -v grep | grep DXPHostGateway >/dev/null || ps aux | grep -v grep | grep WebSvcProcess >/dev/null; then
-    display_color "yellow" "It is running now."
-    display_color "red" "Proceeding to shutdown the ONLINE process. "
-    sh /hlfapp/DXPApp/online/mdynamics/bin/stop.sh &>>${LOG}
-    #./stopWSP.sh >>"${LOG}" 2>&1
-    display_color "yellow" "Shutdown Initiated. Hold on.... It takes time... "
     sleep 40s
     check_process_status "EnvManager"
     check_process_status "HTTPSrvrGateway"
     check_process_status "DXPHostGateway"
-    sleep 10s
-    check_process_status "WebSvcProcess"
+  fi
+}
+
+shutdown_online() {
+  print_info "Checking the status of the ONLINE (EnvManager,HTTPSrvrGateway, and DXPHostGateway) process..."
+  if ps aux | grep -v grep | grep EnvManager >/dev/null || ps aux | grep -v grep | grep HTTPSrvrGateway >/dev/null || ps aux | grep -v grep | grep DXPHostGateway >/dev/null; then
+    display_color "yellow" "It is running now."
+    display_color "red" "Proceeding to shutdown the ONLINE process. "
+    sh /hlfapp/DXPApp/online/mdynamics/bin/stop.sh &>>${LOG}
+    display_color "yellow" "Shutdown Initiated. Hold on.... It takes time... "
+    sleep 25s
+    check_process_status "EnvManager"
+    check_process_status "HTTPSrvrGateway"
+    check_process_status "DXPHostGateway"
   else
     display_color "red" "ONLINE Process is not running."
     sleep 5s
@@ -350,11 +344,46 @@ restart_partitionservice() {
   start_partitionservice
 }
 
+restart_wsprocess() {
+  shutdown_wsprocess
+  start_wsprocess
+}
+
+shutdown_wsprocess() {
+  print_info "Checking the status of the WSPROCESS service..."
+  if ps aux | grep -v grep | grep WebSvcProcess >/dev/null; then
+    display_color "yellow" " It is running now."
+    display_color "red" "Proceeding to shutdown the WSPROCESS service."
+    cd /hlfapp/DXPApp/online/mdynamics/bin/ >>"${LOG}" 2>&1
+    ./stopWSP.sh >>"${LOG}" 2>&1
+    sleep 10s
+    check_process_status "WebSvcProcess"
+  else
+    display_color "red" "WSPROCESS service is not running now."
+    sleep 5s
+  fi
+}
+
+start_wsprocess() {
+  print_info "Checking the status of the WSPROCESS service..."
+  if ! ps aux | grep -v grep | grep WebSvcProcess >>"${LOG}" 2>&1; then
+    display_color "yellow" "It is not running now."
+    display_color "green" "Proceeding to start the WSPROCESS service."
+    cd /hlfapp/DXPApp/online/mdynamics/bin/ >>"${LOG}" 2>&1
+    ./startWSP.sh P1G1_WSPROCESS1 >>"${LOG}" 2>&1
+    sleep 10s
+    check_process_status "WebSvcProcess"
+  else
+    display_color "red" "WebSvcProcess service is running now. Kindly check Manually"
+  fi
+}
+
 shutdown_hlfdxp() {
   shutdown_auth
   shutdown_datasync
   shutdown_inquiry
   shutdown_online
+  shutdown_wsprocess
   shutdown_batch
   shutdown_partitionservice
 }
@@ -365,13 +394,15 @@ start_hlfdxp() {
   start_inquiry
   start_online
   if [ "$current_hostname" = "$action_hostname1" ]; then
+    start_wsprocess
     start_batch
     start_partitionservice
   elif [ "$current_hostname" = "$action_hostname2" ]; then
-    print_info "Not required to start the PARTITIONSERVICE and BATCH. Since scripts are running now in $action_hostname2"
+    print_info "Not required to start the WSPROCESS,PARTITIONSERVICE and BATCH. Since scripts are running now in $action_hostname2"
   else
     echo "Hostname does not match any expected hostnames"
   fi
+
 }
 
 enable_soft_link() {
@@ -421,7 +452,6 @@ deploy_hlfdxp() {
       echo "Folder $zip_folder_name.zip has been successfully extracted to /hlfapp/Deploy."
     else
       print_error "$vit_filename does not exist in $directory. Kindly place valid app.tar.gz "
-      exit 1
     fi
   else
     if [ -e "$zip_folder_path" ]; then
@@ -430,7 +460,6 @@ deploy_hlfdxp() {
       echo "Folder $zip_folder_name.zip has been successfully extracted to /hlfapp/Deploy."
     else
       echo "Error: Folder $zip_folder_name.zip not found."
-      exit 1
     fi
   fi
 
@@ -504,20 +533,8 @@ deploy_hlfdxp() {
     sed -i 's/ext.jms.client.id = P1G1_BTSGW1_1/ext.jms.client.id = P1G1_BTSGW1_2/g' /hlfapp/DXPApp/online/mdynamics/bin/notifBroker.properties
   fi
 
-  if [ "$environment" = "uat" ]; then
-    enable_relic_apm "AUTH" "uat"
-    enable_relic_apm "BATCH" "uat"
-    enable_relic_apm "DATASYNC" "uat"
-    enable_relic_apm "INQUIRY" "uat"
-    enable_relic_apm "ONLINE" "uat"
-    enable_relic_apm "WSPROCESS" "uat"
-  elif [ "$environment" = "prd" ]; then
-    enable_relic_apm "AUTH" "preprod"
-    enable_relic_apm "BATCH" "preprod"
-    enable_relic_apm "DATASYNC" "preprod"
-    enable_relic_apm "INQUIRY" "preprod"
-    enable_relic_apm "ONLINE" "preprod"
-    enable_relic_apm "WSPROCESS" "preprod"
+  if [ "$environment" = "uat" ] || [ "$environment" = "prd" ]; then
+    enable_relic
   else
     print_info " Since scripts are running $environment not required to enable New Relic"
   fi
@@ -607,113 +624,139 @@ insert_command_after_word() {
   fi
 }
 
-enable_relic_apm() {
-  component_type=$1
-  environment=$2
-  print_info "Adding NewRelic APM for $component_type"
-  case $component_type in
-  "AUTH")
+enable_relic_auth() {
+  print_info "Adding NewRelic APM for AUTH"
+  # Define variables
+  search_word="CLASSPATH=\$APP_HOME" # Note: Escaping the dollar sign
+  insert_command="# NewRelic APM for Auth"
+  input_file="/hlfapp/DXPApp/auth/bin/proj-hlfdxp-auth"
+  insert_empty_line="yes"
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+  # Define variables
+  search_word="# NewRelic APM for Auth"
+  insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-auth/newrelic.jar -Dnewrelic.environment=uat"'
+  insert_empty_line="no"
+
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+enable_relic_batch() {
+  if [ "$current_hostname" = "$action_hostname1" ]; then
+    print_info "Adding NewRelic APM for BATCH"
     # Define variables
     search_word="CLASSPATH=\$APP_HOME" # Note: Escaping the dollar sign
-    insert_command="#NewRelic APM for $component_type"
-    input_file="/hlfapp/DXPApp/auth/bin/proj-hlfdxp-auth"
-    insert_empty_line="yes"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-
-    # Define variables
-    search_word="$insert_command"
-    insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-auth/newrelic.jar -Dnewrelic.environment='$environment'"'
-    insert_empty_line="no"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-    ;;
-  "ONLINE")
-    # Define variables
-    search_word="export CLASSPATH"
-    insert_command="#NewRelic APM for $component_type"
-    input_file="/hlfapp/DXPApp/online/mdynamics/bin/runApp"
-    insert_empty_line="yes"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-
-    # Define variables
-    search_word="$insert_command"
-    insert_command='JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-app/newrelic.jar -Dnewrelic.environment='$environment'"'
-    insert_empty_line="no"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-    ;;
-  "BATCH")
-    # Define variables
-    search_word="CLASSPATH=\$APP_HOME" # Note: Escaping the dollar sign
-    insert_command="#NewRelic APM for $component_type"
+    insert_command="# NewRelic APM for Batch"
     input_file="/hlfapp/DXPApp/batch/bin/proj-hlfdxp-batch"
     insert_empty_line="yes"
     # Call the function with defined variables
     insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
 
     # Define variables
-    search_word="$insert_command"
-    insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-batch/newrelic.jar -Dnewrelic.environment='$environment'"'
+    search_word="# NewRelic APM for Batch"
+    insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-batch/newrelic.jar -Dnewrelic.environment=uat"'
     insert_empty_line="no"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-    ;;
-  "DATASYNC")
-    # Define variables
-    search_word="CLASSPATH=\$APP_HOME" # Note: Escaping the dollar sign
-    insert_command="#NewRelic APM for $component_type"
-    input_file="/hlfapp/DXPApp/datasync/bin/proj-hlfdxp-datasync"
-    insert_empty_line="yes"
+
     # Call the function with defined variables
     insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
 
-    # Define variables
-    search_word="$insert_command"
-    insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-datasync/newrelic.jar -Dnewrelic.environment='$environment'"'
-    insert_empty_line="no"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-    ;;
-  "INQUIRY")
-    # Define variables
-    search_word="CLASSPATH=\$APP_HOME" # Note: Escaping the dollar sign
-    insert_command="#NewRelic APM for $component_type"
-    input_file="/hlfapp/DXPApp/inquiry/bin/proj-hlfdxp-inquiry"
-    insert_empty_line="yes"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+  else
+    print_info "New Relic not required to configure Batch. Since scripts are running $current_hostname"
+  fi
+}
 
-    # Define variables
-    search_word="$insert_command"
-    insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-inquiry/newrelic.jar -Dnewrelic.environment='$environment'"'
-    insert_empty_line="no"
-    # Call the function with defined variables
-    insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-    ;;
-  "WSPROCESS")
+enable_relic_datasync() {
+  print_info "Adding NewRelic APM for DataSync"
+  # Define variables
+  search_word="CLASSPATH=\$APP_HOME" # Note: Escaping the dollar sign
+  insert_command="# NewRelic APM for DataSync"
+  input_file="/hlfapp/DXPApp/datasync/bin/proj-hlfdxp-datasync"
+  insert_empty_line="yes"
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+  # Define variables
+  search_word="# NewRelic APM for DataSync"
+  insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-datasync/newrelic.jar -Dnewrelic.environment=uat"'
+  insert_empty_line="no"
+
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+enable_relic_inquiry() {
+  print_info "Adding NewRelic APM for Inquiry"
+  # Define variables
+  search_word="CLASSPATH=\$APP_HOME" # Note: Escaping the dollar sign
+  insert_command="# NewRelic APM for Inquiry"
+  input_file="/hlfapp/DXPApp/inquiry/bin/proj-hlfdxp-inquiry"
+  insert_empty_line="yes"
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+  # Define variables
+  search_word="# NewRelic APM for Inquiry"
+  insert_command='export JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic-dxp-inquiry/newrelic.jar -Dnewrelic.environment=uat"'
+  insert_empty_line="no"
+
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+enable_relic_online() {
+  print_info "Adding NewRelic APM for Online"
+  # Define variables
+  search_word="export CLASSPATH"
+  insert_command="# Add NewRelic APM (online-app)"
+  input_file="/hlfapp/DXPApp/online/mdynamics/bin/runApp"
+  insert_empty_line="yes"
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+
+  # Define variables
+  search_word="# Add NewRelic APM (online-app)"
+  insert_command='JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-app/newrelic.jar -Dnewrelic.environment=uat"'
+  insert_empty_line="no"
+
+  # Call the function with defined variables
+  insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
+}
+
+enable_relic_wsprocess() {
+  if [ "$current_hostname" = "$action_hostname1" ]; then
+    print_info "Adding NewRelic APM for WSPROCESS"
     # Define variables
     search_word="export CLASSPATH"
-    insert_command="#NewRelic APM for $component_type"
+    insert_command="#NewRelic APM (online-wsapp)"
     input_file="/hlfapp/DXPApp/online/mdynamics/bin/runWSApp"
     insert_empty_line="yes"
     # Call the function with defined variables
     insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
 
     # Define variables
-    search_word="$insert_command"
-    insert_command='JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-wsapp/newrelic.jar -Dnewrelic.environment='$environment'"'
+    search_word="#NewRelic APM (online-wsapp)"
+    insert_command='JVM_OPTION="$JVM_OPTION -javaagent:/opt/newrelic-dxp-online-wsapp/newrelic.jar -Dnewrelic.environment=uat"'
     insert_empty_line="no"
 
     # Call the function with defined variables
     insert_command_after_word "$search_word" "$insert_command" "$input_file" "$insert_empty_line"
-    ;;
-  *)
-    print_error "Invalid component type: $component_type"
-    return 1
-    ;;
-  esac
+
+  else
+    print_info "New Relic not required to configure for WSPROCESS. Since scripts are running $action_hostname2"
+  fi
+}
+
+enable_relic() {
+
+  enable_relic_auth
+  enable_relic_batch
+  enable_relic_datasync
+  enable_relic_inquiry
+  enable_relic_online
+  enable_relic_wsprocess
+
 }
 
 download_ks_for_dxp() {
@@ -797,6 +840,7 @@ confirm_action() {
 }
 
 # Loop until the user chooses to quit
+#!/bin/bash
 function inner_select() {
   local choice="$1" # The choice passed from the outer select
   case "$choice" in
@@ -833,7 +877,7 @@ function inner_select() {
   Shutdown)
     while true; do
       PS3="Select an option from the listed above: " # Customize the prompt
-      options=("AUTH" "BATCH" "DATASYNC" "INQUIRY" "ONLINE" "PARTITIONSERVICE" "SHUTDOWNALL" "backToParentMenu")
+      options=("AUTH" "BATCH" "DATASYNC" "INQUIRY" "ONLINE" "WSPROCESS" "PARTITIONSERVICE" "SHUTDOWNALL" "backToParentMenu")
       select choice in "${options[@]}"; do
         case "$choice" in
         "AUTH")
@@ -899,6 +943,24 @@ function inner_select() {
           format_and_display_jps
           break
           ;;
+        "WSPROCESS")
+          print_info "Input received from user to SHUTDOWN HLF-DXP WSPROCESS Service"
+          format_and_display_jps
+          if confirm_action "Shutdown" "WSPROCESS"; then
+            if [ "$current_hostname" = "$action_hostname1" ]; then
+              shutdown_wsprocess
+            elif [ "$current_hostname" = "$action_hostname2" ]; then
+              print_warn "WSPROCESS run only in $action_hostname1 "
+              shutdown_wsprocess
+            else
+              echo "Hostname does not match any expected hostnames"
+            fi
+          else
+            echo "SHUTDOWN WSPROCESS Service aborted."
+          fi
+          format_and_display_jps
+          break
+          ;;
         "PARTITIONSERVICE")
           print_info "Input received from user to SHUTDOWN HLF-DXP PARTITIONSERVICE Service"
           format_and_display_jps
@@ -945,7 +1007,7 @@ function inner_select() {
   Start)
     while true; do
       PS3="Select an option from the listed above: " # Customize the prompt
-      options=("AUTH" "BATCH" "DATASYNC" "INQUIRY" "ONLINE" "PARTITIONSERVICE" "STARTALL" "backToParentMenu")
+      options=("AUTH" "BATCH" "DATASYNC" "INQUIRY" "ONLINE" "WSPROCESS" "PARTITIONSERVICE" "STARTALL" "backToParentMenu")
       select choice in "${options[@]}"; do
         case "$choice" in
         "AUTH")
@@ -1014,6 +1076,28 @@ function inner_select() {
           format_and_display_jps
           break
           ;;
+        "WSPROCESS")
+          print_info "Input received from user to start HLF-DXP WSPROCESS Serivce"
+          format_and_display_jps
+          if confirm_action "Start" "WSPROCESS"; then
+            if [ "$current_hostname" = "$action_hostname1" ]; then
+              start_wsprocess
+            elif [ "$current_hostname" = "$action_hostname2" ]; then
+              print_warn "WSPROCESS run only in $action_hostname1"
+              if confirm_action "Start" "WSPROCESS"; then
+                start_wsprocess
+              else
+                echo "Start WSPROCESS aborted."
+              fi
+            else
+              echo "Hostname does not match any expected hostnames"
+            fi
+          else
+            echo "Start WSPROCESS aborted."
+          fi
+          format_and_display_jps
+          break
+          ;;
         "PARTITIONSERVICE")
           print_info "Input received from user to start HLF-DXP PARTITIONSERVICE Serivce"
           format_and_display_jps
@@ -1064,7 +1148,7 @@ function inner_select() {
   Restart)
     while true; do
       PS3="Select an option from the listed above: " # Customize the prompt
-      options=("AUTH" "BATCH" "DATASYNC" "INQUIRY" "ONLINE" "PARTITIONSERVICE" "RESTARTALL" "backToParentMenu")
+      options=("AUTH" "BATCH" "DATASYNC" "INQUIRY" "ONLINE" "WSPROCESS" "PARTITIONSERVICE" "RESTARTALL" "backToParentMenu")
       select choice in "${options[@]}"; do
         case "$choice" in
         "AUTH")
@@ -1129,6 +1213,28 @@ function inner_select() {
             restart_online
           else
             echo "Restart ONLINE aborted."
+          fi
+          format_and_display_jps
+          break
+          ;;
+        "WSPROCESS")
+          print_info "Input received from user to restart HLF-DXP WSPROCESS Service"
+          format_and_display_jps
+          if confirm_action "RESTART" "WSPROCESS"; then
+            if [ "$current_hostname" = "$action_hostname1" ]; then
+              restart_wsprocess
+            elif [ "$current_hostname" = "$action_hostname2" ]; then
+              print_warn "WSPROCESS run only in $action_hostname1"
+              if confirm_action "RESTART" "WSPROCESS"; then
+                restart_wsprocess
+              else
+                echo "Restart WSPROCESS aborted."
+              fi
+            else
+              echo "Hostname does not match any expected hostnames"
+            fi
+          else
+            echo "Restart WSPROCESS aborted."
           fi
           format_and_display_jps
           break
