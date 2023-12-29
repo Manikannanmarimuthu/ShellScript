@@ -6,8 +6,8 @@
 
 ######################################################################################
 #Author : MVI
-#Date : 28-DEC-2023
-#This Utility is used to Deploy,start,stop and restart the DXP Application
+#Date : 29-DEC-2023
+#This Utility is used to Deploy,start,stop and restart the DXP Services
 #######################################################################################
 
 export param_path=$PORTFOLIO/$ENVIRONMENT/

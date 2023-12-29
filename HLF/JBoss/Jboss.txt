@@ -44,10 +44,10 @@ sudo chown mvi1:mvi1 *
 [Yesterday 17:24] Arthur Tham
 sudo chown -R mvi1:mvi1 *
 
-sudo chown -R mviuser:mviuser /hlfapp
+sudo chown -R mviuser:mviuser /DXP-BTS
 
 Applicable for only SIT 
-# 9990 already occupied in SIT so we incrementing + 2 9992
+# 9990 already occupied(DFE) in SIT so we incrementing + 2 9992
 . ./setenv.sh
   nohup ./standalone.sh &
 
